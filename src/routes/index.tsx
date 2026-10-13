@@ -624,17 +624,30 @@ function Index() {
             fetchPriority="high"
           />
           <div className="page-width hero-content">
-            <Eyebrow>Engenharia de Software &amp; Design de Produto</Eyebrow>
-            <h1 id="hero-title">
+            {/* Container dos textos pequenos do topo: estritamente empilhados (flex-col) no mobile com gap pequeno */}
+            <div className="hero-top-badges">
+              <span className="hero-eyebrow-tag">
+                <span className="eyebrow-line" />
+                <span>ENGENHARIA DE SOFTWARE &amp; DESIGN DE PRODUTO</span>
+              </span>
+              <span className="hero-status-tag">
+                <span className="status-dot" />
+                <span>OPERACIONAL · ESTRATÉGIA, CÓDIGO E DESIGN</span>
+              </span>
+            </div>
+
+            <h1 id="hero-title" className="hero-title">
               UMBRA.<br />
               Tecnologia para<br />
               o seu <span>próximo passo.</span>
             </h1>
+
             <p className="hero-description">
-              Sites, aplicativos e sistemas sob medida.<br />
-              Transformamos problemas reais em produtos digitais funcionais, escaláveis e prontos para o mercado.
+              Sites, aplicativos e sistemas sob medida.<br className="hidden sm:inline" />
+              {" "}Transformamos problemas reais em produtos digitais funcionais, escaláveis e prontos para o mercado.
             </p>
-            <div className="hero-cta-group mt-8 flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5 sm:gap-4 w-full sm:w-auto">
+
+            <div className="hero-cta-group">
               <Button asChild size="lg" className="h-12 sm:h-11 gap-3 px-6 text-xs font-semibold uppercase tracking-wider shadow-lg shadow-primary/25 hover:shadow-primary/40 transition-all justify-center w-full sm:w-auto">
                 <a href="#contato">
                   Iniciar briefing <ArrowRight className="w-4 h-4" />
@@ -648,12 +661,12 @@ function Index() {
             </div>
           </div>
 
-          <div className="page-width hero-bottom">
-            <span className="hero-caption flex items-center justify-center gap-2">
-              <span className="h-2 w-2 rounded-full bg-success animate-pulse" />
-              OPERACIONAL · ESTRATÉGIA, CÓDIGO E DESIGN
+          <div className="page-width hero-bottom hidden sm:flex">
+            <span className="hero-caption flex items-center gap-2">
+              <span className="h-2 w-2 rounded-full bg-success animate-pulse shrink-0" />
+              DISPONÍVEL PARA PROJETOS
             </span>
-            <span className="hero-caption hidden sm:inline-flex">
+            <span className="hero-caption">
               GUARULHOS — SP · ATENDIMENTO BRASIL
             </span>
           </div>
