@@ -84,7 +84,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:title", content: "UMBRA — Tecnologia com propósito | Engenharia de Software & Design" },
       { property: "og:description", content: "Desenvolvimento de sites, aplicativos e sistemas sob medida. Transformamos problemas reais em produtos digitais funcionais e escaláveis." },
       { property: "og:type", content: "website" },
+      { property: "og:image", content: "/images/umbra-logo.png" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:image", content: "/images/umbra-logo.png" },
     ],
     links: [
       {

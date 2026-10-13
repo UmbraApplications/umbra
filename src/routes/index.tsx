@@ -383,11 +383,24 @@ function Index() {
       if (e.key === 'Escape') {
         setSelectedProject(null);
         setConfirmationModal(null);
+        setMenuOpen(false);
       }
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
+
+  // Lock body scroll when mobile menu or modals are open
+  useEffect(() => {
+    if (menuOpen || selectedProject || confirmationModal) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [menuOpen, selectedProject, confirmationModal]);
 
   const validateStep1 = (): boolean => {
     const errors: Record<string, string> = {};
@@ -551,40 +564,49 @@ function Index() {
           </div>
         </div>
 
-        {/* Mobile Navigation Drawer */}
+        {/* Mobile Navigation Drawer & Backdrop */}
         {menuOpen && (
-          <nav className="mobile-nav" aria-label="Navegação móvel">
-            <div className="flex items-center justify-between pb-3 border-b border-border/40">
-              <span className="font-mono text-xs uppercase tracking-wider text-muted-foreground">Navegação</span>
-              <button 
-                onClick={() => setMenuOpen(false)}
-                className="text-muted-foreground hover:text-foreground p-1"
-                aria-label="Fechar menu móvel"
-              >
-                <X className="w-5 h-5" />
-              </button>
-            </div>
-            {navLinks.map(([label, href]) => (
-              <a 
-                key={href} 
-                href={href} 
-                className="mobile-nav-link" 
-                onClick={() => setMenuOpen(false)}
-              >
-                <span>{label}</span>
-                <ChevronRight className="w-4 h-4 text-muted-foreground" />
-              </a>
-            ))}
-            <div className="pt-4 mt-auto">
-              <a 
-                href="#contato" 
-                className="flex items-center justify-center gap-2 w-full rounded-md bg-primary py-3 px-4 text-sm font-semibold text-primary-foreground shadow-lg shadow-primary/20"
-                onClick={() => setMenuOpen(false)}
-              >
-                Iniciar briefing <ArrowUpRight className="w-4 h-4" />
-              </a>
-            </div>
-          </nav>
+          <>
+            <div 
+              className="fixed inset-0 bg-black/60 z-40 lg:hidden backdrop-blur-sm"
+              onClick={() => setMenuOpen(false)}
+              aria-hidden="true"
+            />
+            <nav className="mobile-nav" aria-label="Navegação móvel">
+              <div className="flex items-center justify-between pb-3 border-b border-border/40">
+                <span className="font-mono text-xs uppercase tracking-wider text-muted-foreground">Menu</span>
+                <button 
+                  onClick={() => setMenuOpen(false)}
+                  className="text-muted-foreground hover:text-foreground p-1.5 rounded-md hover:bg-card/50"
+                  aria-label="Fechar menu móvel"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+              <div className="flex flex-col gap-1 py-3 my-auto overflow-y-auto">
+                {navLinks.map(([label, href]) => (
+                  <a 
+                    key={href} 
+                    href={href} 
+                    className="mobile-nav-link" 
+                    onClick={() => setMenuOpen(false)}
+                  >
+                    <span>{label}</span>
+                    <ChevronRight className="w-4 h-4 text-primary/70" />
+                  </a>
+                ))}
+              </div>
+              <div className="pt-4 mt-auto border-t border-border/40">
+                <a 
+                  href="#contato" 
+                  className="flex items-center justify-center gap-2 w-full rounded-md bg-primary py-3.5 px-4 text-sm font-semibold text-primary-foreground shadow-lg shadow-primary/25"
+                  onClick={() => setMenuOpen(false)}
+                >
+                  Iniciar briefing <ArrowUpRight className="w-4 h-4" />
+                </a>
+              </div>
+            </nav>
+          </>
         )}
       </header>
 
@@ -592,7 +614,7 @@ function Index() {
         {/* HERO SECTION */}
         <section className="hero" aria-labelledby="hero-title">
           <img 
-            src={hero} 
+            src={hero || '/images/umbra-hero-2.jpg'} 
             className="hero-art" 
             alt="Fundo geométrico tecnológico UMBRA" 
             width={1920} 
@@ -610,13 +632,13 @@ function Index() {
               Sites, aplicativos e sistemas sob medida.<br />
               Transformamos problemas reais em produtos digitais funcionais, escaláveis e prontos para o mercado.
             </p>
-            <div className="mt-8 flex flex-wrap items-center gap-4">
-              <Button asChild size="lg" className="h-11 gap-3 px-6 text-xs font-semibold uppercase tracking-wider shadow-lg shadow-primary/25 hover:shadow-primary/40 transition-all">
+            <div className="mt-8 flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5 sm:gap-4 w-full sm:w-auto">
+              <Button asChild size="lg" className="h-12 sm:h-11 gap-3 px-6 text-xs font-semibold uppercase tracking-wider shadow-lg shadow-primary/25 hover:shadow-primary/40 transition-all justify-center w-full sm:w-auto">
                 <a href="#contato">
                   Iniciar briefing <ArrowRight className="w-4 h-4" />
                 </a>
               </Button>
-              <Button asChild variant="outline" size="lg" className="h-11 gap-2.5 px-5 text-xs font-semibold uppercase tracking-wider border-border hover:border-primary hover:bg-card">
+              <Button asChild variant="outline" size="lg" className="h-12 sm:h-11 gap-2.5 px-5 text-xs font-semibold uppercase tracking-wider border-border hover:border-primary hover:bg-card justify-center w-full sm:w-auto">
                 <a href="#projetos">
                   Ver casos reais <ArrowDown className="w-3.5 h-3.5 text-primary" />
                 </a>
@@ -637,11 +659,11 @@ function Index() {
 
         {/* CAPABILITIES BAR */}
         <div className="capabilities">
-          <div className="page-width grid grid-cols-2 gap-y-3 gap-x-6 md:grid-cols-4">
-            <span className="capability"><Code2 />Desenvolvimento Full Stack</span>
-            <span className="capability"><Layers3 />Soluções sob medida</span>
-            <span className="capability"><ShieldCheck />Engenharia &amp; Design</span>
-            <span className="capability"><Zap />Tecnologia com propósito</span>
+          <div className="page-width capabilities-grid">
+            <span className="capability"><Code2 className="w-4 h-4 text-primary shrink-0" />Desenvolvimento Full Stack</span>
+            <span className="capability"><Layers3 className="w-4 h-4 text-primary shrink-0" />Soluções sob medida</span>
+            <span className="capability"><ShieldCheck className="w-4 h-4 text-primary shrink-0" />Engenharia &amp; Design</span>
+            <span className="capability"><Zap className="w-4 h-4 text-primary shrink-0" />Tecnologia com propósito</span>
           </div>
         </div>
 
@@ -807,7 +829,7 @@ function Index() {
                     <Button 
                       variant="ghost" 
                       size="sm" 
-                      className="text-xs h-9 gap-2 text-muted-foreground hover:text-foreground"
+                      className="text-xs h-10 sm:h-9 gap-2 text-muted-foreground hover:text-foreground justify-center sm:justify-start"
                       onClick={() => setSelectedProject(prod)}
                     >
                       <Info className="w-3.5 h-3.5 text-primary" /> Ver estudo detalhado
@@ -817,7 +839,7 @@ function Index() {
                       href={prod.url} 
                       target="_blank" 
                       rel="noopener noreferrer" 
-                      className="inline-flex items-center gap-1.5 text-xs font-semibold text-primary hover:underline"
+                      className="inline-flex items-center justify-center sm:justify-start gap-1.5 text-xs font-semibold text-primary hover:underline h-10 sm:h-auto"
                     >
                       {prod.cta} <ExternalLink className="w-3.5 h-3.5" />
                     </a>
@@ -1132,7 +1154,7 @@ function Index() {
                     <Button 
                       type="button" 
                       onClick={handleNextStep} 
-                      className="h-10 px-5 gap-2 text-xs font-semibold uppercase tracking-wider"
+                      className="w-full sm:w-auto h-11 sm:h-10 px-5 gap-2 text-xs font-semibold uppercase tracking-wider justify-center"
                     >
                       Avançar para escopo <ArrowRight className="w-4 h-4" />
                     </Button>
@@ -1215,19 +1237,19 @@ function Index() {
                     )}
                   </div>
 
-                  <div className="pt-4 flex items-center justify-between">
+                  <div className="pt-4 flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-between gap-3">
                     <Button 
                       type="button" 
                       variant="ghost" 
                       onClick={() => setFormStep(1)} 
-                      className="text-xs h-10 px-4"
+                      className="text-xs h-11 sm:h-10 px-4 justify-center"
                     >
                       Voltar
                     </Button>
                     <Button 
                       type="button" 
                       onClick={handleNextStep} 
-                      className="h-10 px-5 gap-2 text-xs font-semibold uppercase tracking-wider"
+                      className="h-11 sm:h-10 px-5 gap-2 text-xs font-semibold uppercase tracking-wider justify-center"
                     >
                       Revisar informações <ArrowRight className="w-4 h-4" />
                     </Button>
@@ -1363,23 +1385,23 @@ function Index() {
                       </Button>
                     </div>
 
-                    <div className="flex flex-wrap items-center justify-between gap-3 pt-2">
+                    <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 pt-2">
                       <Button 
                         type="button" 
                         variant="ghost" 
                         onClick={() => setFormStep(2)} 
-                        className="text-xs h-9 px-3"
+                        className="text-xs h-10 sm:h-9 px-3 justify-center"
                       >
                         Editar dados
                       </Button>
 
-                      <div className="flex items-center gap-2">
+                      <div className="flex items-center justify-between sm:justify-end gap-2">
                         <Button 
                           type="button" 
                           variant="ghost" 
                           size="sm" 
                           onClick={handleCopySummary}
-                          className="text-xs h-9 gap-1.5 text-muted-foreground hover:text-foreground"
+                          className="text-xs h-10 sm:h-9 gap-1.5 text-muted-foreground hover:text-foreground flex-1 sm:flex-none justify-center"
                         >
                           <Copy className="w-3.5 h-3.5" /> Copiar resumo
                         </Button>
@@ -1388,7 +1410,7 @@ function Index() {
                           href={generateWhatsAppUrl(briefingData)} 
                           target="_blank" 
                           rel="noopener noreferrer" 
-                          className="inline-flex items-center gap-1.5 text-xs font-semibold text-success hover:underline px-2 py-1"
+                          className="inline-flex items-center justify-center gap-1.5 text-xs font-semibold text-success hover:underline px-3 py-2 rounded-md hover:bg-success/10 flex-1 sm:flex-none"
                         >
                           <MessageSquare className="w-3.5 h-3.5" /> Falar no WhatsApp
                         </a>
@@ -1531,17 +1553,17 @@ function Index() {
                 </div>
               </div>
 
-              <div className="pt-4 border-t border-border flex flex-wrap items-center justify-between gap-4">
+              <div className="pt-4 border-t border-border flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 sm:gap-4">
                 <a 
                   href={selectedProject.url} 
                   target="_blank" 
                   rel="noopener noreferrer" 
-                  className="inline-flex items-center gap-2 text-xs font-semibold text-primary hover:underline"
+                  className="inline-flex items-center justify-center sm:justify-start gap-2 text-xs font-semibold text-primary hover:underline h-10 sm:h-auto"
                 >
                   Acessar aplicação em produção <ExternalLink className="w-3.5 h-3.5" />
                 </a>
 
-                <Button asChild size="sm" onClick={() => setSelectedProject(null)} className="text-xs">
+                <Button asChild size="sm" onClick={() => setSelectedProject(null)} className="text-xs h-11 sm:h-9 justify-center">
                   <a href="#contato">
                     Tem um desafio parecido? Fale conosco <ArrowRight className="w-3.5 h-3.5 ml-1" />
                   </a>

@@ -43,3 +43,7 @@ dist-ssr
 # Private keys and certificates
 *.pem
 *.key
+
+# Local shell wrappers
+powershell.cmd
+powershell.bat

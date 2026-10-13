@@ -1189,13 +1189,13 @@
   }
 }
 
-/* RESPONSIVE BREAKPOINTS WITH RIGOROUS ALIGNMENTS */
+/* RESPONSIVE BREAKPOINTS WITH RIGOROUS MOBILE-FIRST REFINEMENTS */
 @media (min-width: 1600px) { 
   .hero-art { object-position: center 48%; } 
 }
 
 @media (max-width: 1024px) {
-  .why-grid, .architecture-grid, .labs-grid, .metrics-grid { 
+  .why-grid, .architecture-grid, .labs-grid { 
     grid-template-columns: repeat(2, 1fr); 
     gap: 16px; 
   }
@@ -1218,44 +1218,47 @@
     grid-template-columns: 1fr; 
     gap: 36px; 
   }
-  .metric-item { 
-    border-right: none; 
-    border-bottom: 1px solid var(--border-subtle); 
-    padding-block: 16px; 
-  }
-  .metric-item:last-child { 
-    border-bottom: none; 
-  }
   .contact-grid, .founder-grid {
     grid-template-columns: 1fr;
     gap: 48px;
   }
 }
 
-@media (max-width: 900px) {
+@media (max-width: 768px) {
   .page-width { 
-    width: calc(100% - 44px); 
-  }
-  .hero h1 { 
-    font-size: clamp(2.2rem, 5vw, 3.2rem); 
+    width: calc(100% - 36px); 
   }
   .section { 
-    padding-block: 76px; 
+    padding-block: 72px; 
   }
+  /* Horizontal swipeable process tabs */
   .process-nav { 
-    grid-template-columns: 1fr; 
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    background: var(--card);
+  }
+  .process-nav::-webkit-scrollbar {
+    display: none;
   }
   .process-nav-item { 
-    border-right: none; 
-    border-bottom: 1px solid var(--border-subtle); 
-    padding: 16px 20px;
+    flex: 0 0 auto;
+    min-width: 135px;
+    scroll-snap-align: start;
+    padding: 14px 16px;
+    text-align: center;
+    border-right: 1px solid var(--border-subtle);
+    border-bottom: none;
   }
   .process-nav-item.active::after {
-    left: 0;
-    top: 0;
+    top: auto;
     bottom: 0;
-    width: 3px;
-    height: auto;
+    left: 0;
+    right: 0;
+    height: 2.5px;
+    width: 100%;
   }
   .building-banner { 
     flex-direction: column; 
@@ -1265,17 +1268,28 @@
 }
 
 @media (max-width: 640px) {
+  html, body {
+    overflow-x: hidden;
+    max-width: 100vw;
+  }
+
   .site-header { 
-    height: 70px; 
+    height: 68px; 
   }
   .page-width { 
-    width: calc(100% - 32px); 
+    width: calc(100% - 28px); 
+    margin-inline: auto;
   }
   .brand { 
-    font-size: 21px; 
+    font-size: 20px; 
+    gap: 9px;
+  }
+  .brand img {
+    width: 26px;
+    height: 31px;
   }
   .hero { 
-    min-height: 600px; 
+    min-height: 560px; 
     height: auto; 
     align-items: flex-start; 
   }
@@ -1286,57 +1300,272 @@
     opacity: 0.35; 
   }
   .hero-content { 
-    padding-block: 48px 80px; 
+    padding-block: 40px 72px; 
+    max-width: 100%;
+  }
+  .hero h1 { 
+    font-size: clamp(2rem, 7.8vw, 2.75rem); 
+    line-height: 1.12;
+    margin-block: 0 16px;
+  }
+  .hero-description {
+    font-size: 14.5px;
+    line-height: 1.65;
   }
   .hero-bottom { 
     position: static; 
-    margin-top: 32px; 
-    padding-bottom: 24px;
+    margin-top: 28px; 
+    padding-bottom: 20px;
     flex-direction: column; 
     align-items: flex-start; 
-    gap: 12px; 
+    gap: 10px; 
   }
+
+  /* Capabilities mobile 2x2 grid */
+  .capabilities { 
+    padding-block: 14px; 
+  }
+  .capabilities-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+  .capability {
+    font-size: 11px;
+    padding: 8px 10px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border-subtle);
+    background: var(--card);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
   .section { 
-    padding-block: 60px; 
+    padding-block: 56px; 
   }
   .section-heading { 
     display: block; 
-    margin-bottom: 32px;
+    margin-bottom: 28px;
+  }
+  .section h2 {
+    font-size: clamp(1.6rem, 6vw, 2rem);
   }
   .section-intro { 
-    margin-top: 14px; 
+    margin-top: 10px; 
+    font-size: 13.5px;
   }
-  .why-grid, .architecture-grid, .labs-grid, .metrics-grid { 
+
+  /* Why UMBRA cards */
+  .why-grid, .architecture-grid, .labs-grid { 
     grid-template-columns: 1fr; 
+    gap: 14px;
   }
-  .founder-photo { 
-    height: 380px; 
+  .why-card {
+    padding: 22px 18px;
   }
+  .why-card h3 {
+    font-size: 17px;
+  }
+
+  /* Process active card */
+  .process-display-card {
+    grid-template-columns: 1fr !important;
+    padding: 22px 18px;
+    gap: 18px;
+    margin-top: 20px;
+  }
+  .process-display-number {
+    font-size: 42px;
+  }
+  .process-display-content h3 {
+    font-size: 20px;
+  }
+
+  /* Products editorial cards */
   .product-body { 
-    padding: 22px; 
+    padding: 20px 16px; 
   }
+  .product-body h3 {
+    font-size: 19px;
+    margin-bottom: 10px;
+  }
+  .product-problem-solution {
+    padding: 14px;
+    gap: 10px;
+    margin-block: 14px 16px;
+  }
+  .product-actions {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    width: 100%;
+  }
+  .product-actions a, .product-actions button {
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+  }
+  .product-actions a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 11px 16px;
+    border-radius: var(--radius-sm);
+    background: var(--surface-subtle);
+    border: 1px solid var(--border-subtle);
+    font-weight: 600;
+  }
+
+  /* Founder */
+  .founder-photo { 
+    height: 330px; 
+  }
+  .founder-label {
+    bottom: 16px;
+    left: 16px;
+    right: 16px;
+  }
+  .founder-content h2 {
+    font-size: 22px;
+    margin-block: 14px 18px;
+  }
+
+  /* Metrics as 2x2 grid */
+  .metrics-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 10px;
+    padding-block: 22px;
+  }
+  .metric-item {
+    padding: 14px 10px;
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-sm);
+    background: var(--card);
+    border-right: none;
+    border-bottom: none;
+  }
+  .metric-value {
+    font-size: 30px;
+    margin-bottom: 4px;
+  }
+  .metric-label {
+    font-size: 11px;
+    line-height: 1.45;
+  }
+
+  /* Tech stack */
   .tech-layer-card { 
     grid-template-columns: 1fr; 
     gap: 10px; 
-    padding: 20px;
+    padding: 18px 16px;
   }
   .tech-layer-desc { 
     grid-column: span 1; 
   }
+
+  /* Mobile Stepper & Forms */
+  .briefing-stepper {
+    gap: 4px;
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+  }
+  .briefing-step-tab {
+    font-size: 10.5px;
+    gap: 6px;
+  }
+  .step-circle {
+    width: 20px;
+    height: 20px;
+    font-size: 9px;
+  }
+
+  /* Crucial for iOS Safari auto-zoom prevention: 16px minimum font size */
+  .field, input.field, select.field, textarea.field {
+    font-size: 16px !important;
+    padding: 12px 14px;
+    min-height: 48px;
+  }
+  textarea.field {
+    min-height: 110px;
+  }
+
+  /* Modals */
+  .modal-overlay {
+    padding: 12px;
+  }
+  .modal-container {
+    max-height: 94vh;
+    border-radius: 10px;
+  }
+  .modal-header {
+    padding: 18px 16px;
+  }
+  .modal-body {
+    padding: 18px 16px;
+    gap: 18px;
+  }
+
+  /* Mobile Navigation */
+  .mobile-nav {
+    top: 68px;
+    padding: 20px 16px;
+    height: calc(100svh - 68px);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    z-index: 50;
+  }
+  .mobile-nav-link {
+    padding: 14px 14px;
+    font-size: 15px;
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: var(--radius-sm);
+    transition: background-color 0.15s ease;
+  }
+  .mobile-nav-link:active {
+    background: var(--surface-subtle);
+  }
+
+  button, a, input, select, textarea {
+    touch-action: manipulation;
+  }
+
+  /* Footer */
   .footer-links-grid { 
     grid-template-columns: repeat(2, 1fr); 
+    gap: 10px 16px;
   }
   .footer-bottom { 
     flex-direction: column; 
-    gap: 16px; 
+    gap: 14px; 
     align-items: flex-start; 
   }
-  .capabilities {
-    padding-block: 16px;
+}
+
+@media (max-width: 380px) {
+  .page-width {
+    width: calc(100% - 20px);
   }
-  .capabilities .grid {
+  .hero h1 {
+    font-size: 1.8rem;
+  }
+  .metrics-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .capabilities-grid {
     grid-template-columns: 1fr;
-    gap: 12px;
+  }
+  .briefing-step-tab {
+    font-size: 9.5px;
+    gap: 4px;
+  }
+  .step-circle {
+    width: 18px;
+    height: 18px;
+    font-size: 8.5px;
   }
 }
 
@@ -1350,3 +1579,4 @@
     transition-duration: 0.01ms !important; 
   } 
 }
+
