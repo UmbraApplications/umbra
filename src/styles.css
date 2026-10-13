@@ -1228,6 +1228,46 @@
   .page-width { 
     width: calc(100% - 36px); 
   }
+  .hero {
+    min-height: auto;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding-top: 24px;
+    padding-bottom: 24px;
+  }
+  .hero-content {
+    margin-inline: auto;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 600px;
+  }
+  .hero h1 {
+    text-align: center;
+    margin-inline: auto;
+  }
+  .hero-description {
+    text-align: center;
+    margin-inline: auto;
+  }
+  .hero-cta-group {
+    margin-inline: auto;
+    justify-content: center;
+  }
+  .hero-bottom {
+    position: static;
+    margin-top: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+  }
   .section { 
     padding-block: 72px; 
   }
@@ -1277,7 +1317,7 @@
     height: 68px; 
   }
   .page-width { 
-    width: calc(100% - 28px); 
+    width: calc(100% - 32px); 
     margin-inline: auto;
   }
   .brand { 
@@ -1289,56 +1329,127 @@
     height: 31px;
   }
   .hero { 
-    min-height: 560px; 
+    min-height: auto; 
     height: auto; 
-    align-items: flex-start; 
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    justify-content: center;
+    padding-top: 20px;
+    padding-bottom: 24px;
+    text-align: center;
   }
   .hero:before {
     background: var(--hero-overlay-mobile);
   }
   .hero-art { 
-    opacity: 0.35; 
+    opacity: 0.3; 
+    object-position: center;
   }
   .hero-content { 
-    padding-block: 40px 72px; 
-    max-width: 100%;
+    padding-block: 28px 24px; 
+    width: 100%;
+    max-width: 520px;
+    margin-inline: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  .hero-content .eyebrow {
+    justify-content: center;
+    margin-inline: auto;
+    margin-bottom: 14px;
+    padding: 5px 14px;
+    background: var(--primary-soft);
+    border: 1px solid oklch(0.62 0.23 295 / 0.28);
+    border-radius: 9999px;
+    font-size: 10.5px;
+    letter-spacing: 0.08em;
+  }
+  .hero-content .eyebrow-line {
+    display: none;
   }
   .hero h1 { 
-    font-size: clamp(2rem, 7.8vw, 2.75rem); 
-    line-height: 1.12;
-    margin-block: 0 16px;
+    font-size: clamp(2.05rem, 8vw, 2.65rem); 
+    line-height: 1.15;
+    letter-spacing: -0.035em;
+    margin-block: 8px 16px;
+    text-align: center;
+    margin-inline: auto;
+    width: 100%;
   }
   .hero-description {
     font-size: 14.5px;
-    line-height: 1.65;
+    line-height: 1.68;
+    text-align: center;
+    margin-inline: auto;
+    max-width: 440px;
+    color: var(--text-secondary);
+  }
+  .hero-cta-group {
+    width: 100%;
+    max-width: 330px;
+    margin-inline: auto;
+    margin-top: 24px;
+    align-items: center;
+  }
+  .hero-cta-group button, .hero-cta-group a {
+    width: 100%;
+    justify-content: center;
+    text-align: center;
   }
   .hero-bottom { 
     position: static; 
-    margin-top: 28px; 
-    padding-bottom: 20px;
+    margin-top: 22px; 
+    padding-bottom: 14px;
+    width: 100%;
+    max-width: 520px;
+    margin-inline: auto;
+    display: flex;
     flex-direction: column; 
-    align-items: flex-start; 
-    gap: 10px; 
+    align-items: center; 
+    justify-content: center;
+    gap: 8px; 
+    text-align: center;
+  }
+  .hero-caption {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 10.5px;
+    letter-spacing: 0.06em;
+    padding: 5px 14px;
+    background: var(--surface-subtle);
+    border: 1px solid var(--border-subtle);
+    border-radius: 9999px;
+    margin-inline: auto;
   }
 
   /* Capabilities mobile 2x2 grid */
   .capabilities { 
-    padding-block: 14px; 
+    padding-block: 16px; 
   }
   .capabilities-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 8px;
+    width: 100%;
+    margin-inline: auto;
   }
   .capability {
     font-size: 11px;
-    padding: 8px 10px;
+    line-height: 1.35;
+    padding: 10px 10px;
     border-radius: var(--radius-sm);
     border: 1px solid var(--border-subtle);
     background: var(--card);
     display: flex;
     align-items: center;
-    gap: 8px;
+    justify-content: center;
+    text-align: center;
+    gap: 7px;
   }
 
   .section { 
@@ -1551,6 +1662,17 @@
   }
   .hero h1 {
     font-size: 1.8rem;
+  }
+  .hero-description {
+    font-size: 13.5px;
+  }
+  .hero-cta-group {
+    max-width: 100%;
+  }
+  .hero-caption {
+    font-size: 9.5px;
+    padding: 4px 10px;
+    letter-spacing: 0.04em;
   }
   .metrics-grid {
     grid-template-columns: 1fr !important;

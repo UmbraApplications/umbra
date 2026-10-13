@@ -1,24 +1,24 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { useState, useEffect } from 'react';
-import { 
-  ArrowUpRight, 
-  ArrowDown, 
-  ArrowRight, 
-  Code2, 
-  Layers3, 
-  ShieldCheck, 
-  Zap, 
-  Check, 
-  Menu, 
-  X, 
-  Download, 
-  ExternalLink, 
-  Info, 
-  ChevronRight, 
-  Mail, 
-  MessageSquare, 
-  CheckCircle2, 
-  AlertCircle, 
+import {
+  ArrowUpRight,
+  ArrowDown,
+  ArrowRight,
+  Code2,
+  Layers3,
+  ShieldCheck,
+  Zap,
+  Check,
+  Menu,
+  X,
+  Download,
+  ExternalLink,
+  Info,
+  ChevronRight,
+  Mail,
+  MessageSquare,
+  CheckCircle2,
+  AlertCircle,
   Copy,
   RefreshCw
 } from 'lucide-react';
@@ -28,17 +28,17 @@ import symbol from '@/assets/umbra-symbol.png.asset.json';
 import founder from '@/assets/fundador-umbra.webp.asset.json';
 import produtoMl from '@/assets/produto-ml.jpg.asset.json';
 import produtoLileot from '@/assets/produto-lileot.jpg.asset.json';
-import { 
-  BriefingData, 
-  UMBRA_CONTACT, 
-  downloadBriefingFile, 
-  generateMailtoUrl, 
+import {
+  BriefingData,
+  UMBRA_CONTACT,
+  downloadBriefingFile,
+  generateMailtoUrl,
   generateWhatsAppUrl,
-  sendBriefingViaApi 
+  sendBriefingViaApi
 } from '@/lib/briefing';
 
 export const Route = createFileRoute('/')({
-  head: () => ({ 
+  head: () => ({
     meta: [
       { title: 'UMBRA — Tecnologia com propósito | Engenharia de Software & Design' },
       { name: 'description', content: 'A UMBRA desenvolve sites, aplicativos, sistemas e plataformas sob medida. Transformamos problemas reais em produtos digitais funcionais e escaláveis.' },
@@ -46,7 +46,7 @@ export const Route = createFileRoute('/')({
       { property: 'og:description', content: 'Transformamos problemas reais em produtos digitais sob medida. Engenharia de software, design e estratégia.' },
       { property: 'og:type', content: 'website' },
       { name: 'twitter:card', content: 'summary_large_image' },
-    ] 
+    ]
   }),
   component: Index,
 });
@@ -338,7 +338,7 @@ function Index() {
   const [headerScrolled, setHeaderScrolled] = useState(false);
   const [activeStep, setActiveStep] = useState(0);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
-  
+
   // Multi-step Briefing Form state
   const [formStep, setFormStep] = useState<1 | 2 | 3>(1);
   const [briefingData, setBriefingData] = useState<BriefingData>({
@@ -354,7 +354,7 @@ function Index() {
 
   const [formValidationErrors, setFormValidationErrors] = useState<Record<string, string>>({});
   const [isSubmittingEmail, setIsSubmittingEmail] = useState(false);
-  
+
   // Submission status handling (preserves data and provides clear feedback)
   const [submissionFeedback, setSubmissionFeedback] = useState<{
     status: 'idle' | 'unconfigured' | 'error';
@@ -494,7 +494,7 @@ function Index() {
       `Desafio: ${briefingData.description}`,
       `Destinatário oficial: ${UMBRA_CONTACT.email}`
     ].join('\n');
-    
+
     try {
       await navigator.clipboard.writeText(text);
       setConfirmationModal({
@@ -530,7 +530,7 @@ function Index() {
       <header className={`site-header ${headerScrolled ? 'scrolled' : ''}`} id="inicio">
         <div className="page-width flex h-full items-center justify-between">
           <Brand />
-          
+
           <nav className="hidden items-center gap-7 lg:flex" aria-label="Navegação principal">
             {navLinks.map(([label, href]) => (
               <a key={href} href={href} className="nav-link font-medium">
@@ -551,12 +551,12 @@ function Index() {
               </a>
             </Button>
 
-            <Button 
-              variant="ghost" 
-              size="icon" 
-              className="lg:hidden text-foreground h-9 w-9" 
-              aria-label={menuOpen ? 'Fechar menu' : 'Abrir menu'} 
-              aria-expanded={menuOpen} 
+            <Button
+              variant="ghost"
+              size="icon"
+              className="lg:hidden text-foreground h-9 w-9"
+              aria-label={menuOpen ? 'Fechar menu' : 'Abrir menu'}
+              aria-expanded={menuOpen}
               onClick={() => setMenuOpen(!menuOpen)}
             >
               {menuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -567,7 +567,7 @@ function Index() {
         {/* Mobile Navigation Drawer & Backdrop */}
         {menuOpen && (
           <>
-            <div 
+            <div
               className="fixed inset-0 bg-black/60 z-40 lg:hidden backdrop-blur-sm"
               onClick={() => setMenuOpen(false)}
               aria-hidden="true"
@@ -575,7 +575,7 @@ function Index() {
             <nav className="mobile-nav" aria-label="Navegação móvel">
               <div className="flex items-center justify-between pb-3 border-b border-border/40">
                 <span className="font-mono text-xs uppercase tracking-wider text-muted-foreground">Menu</span>
-                <button 
+                <button
                   onClick={() => setMenuOpen(false)}
                   className="text-muted-foreground hover:text-foreground p-1.5 rounded-md hover:bg-card/50"
                   aria-label="Fechar menu móvel"
@@ -585,10 +585,10 @@ function Index() {
               </div>
               <div className="flex flex-col gap-1 py-3 my-auto overflow-y-auto">
                 {navLinks.map(([label, href]) => (
-                  <a 
-                    key={href} 
-                    href={href} 
-                    className="mobile-nav-link" 
+                  <a
+                    key={href}
+                    href={href}
+                    className="mobile-nav-link"
                     onClick={() => setMenuOpen(false)}
                   >
                     <span>{label}</span>
@@ -597,8 +597,8 @@ function Index() {
                 ))}
               </div>
               <div className="pt-4 mt-auto border-t border-border/40">
-                <a 
-                  href="#contato" 
+                <a
+                  href="#contato"
                   className="flex items-center justify-center gap-2 w-full rounded-md bg-primary py-3.5 px-4 text-sm font-semibold text-primary-foreground shadow-lg shadow-primary/25"
                   onClick={() => setMenuOpen(false)}
                 >
@@ -613,13 +613,13 @@ function Index() {
       <main>
         {/* HERO SECTION */}
         <section className="hero" aria-labelledby="hero-title">
-          <img 
-            src={hero || '/images/umbra-hero-2.jpg'} 
-            className="hero-art" 
-            alt="Fundo geométrico tecnológico UMBRA" 
-            width={1920} 
-            height={1088} 
-            fetchPriority="high" 
+          <img
+            src={hero || '/images/umbra-hero-2.jpg'}
+            className="hero-art"
+            alt="Fundo geométrico tecnológico UMBRA"
+            width={1920}
+            height={1088}
+            fetchPriority="high"
           />
           <div className="page-width hero-content">
             <Eyebrow>Engenharia de Software &amp; Design de Produto</Eyebrow>
@@ -632,7 +632,7 @@ function Index() {
               Sites, aplicativos e sistemas sob medida.<br />
               Transformamos problemas reais em produtos digitais funcionais, escaláveis e prontos para o mercado.
             </p>
-            <div className="mt-8 flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5 sm:gap-4 w-full sm:w-auto">
+            <div className="hero-cta-group mt-8 flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5 sm:gap-4 w-full sm:w-auto">
               <Button asChild size="lg" className="h-12 sm:h-11 gap-3 px-6 text-xs font-semibold uppercase tracking-wider shadow-lg shadow-primary/25 hover:shadow-primary/40 transition-all justify-center w-full sm:w-auto">
                 <a href="#contato">
                   Iniciar briefing <ArrowRight className="w-4 h-4" />
@@ -647,12 +647,12 @@ function Index() {
           </div>
 
           <div className="page-width hero-bottom">
-            <span className="hero-caption flex items-center gap-2">
+            <span className="hero-caption flex items-center justify-center gap-2">
               <span className="h-2 w-2 rounded-full bg-success animate-pulse" />
               OPERACIONAL · ESTRATÉGIA, CÓDIGO E DESIGN
             </span>
-            <span className="hero-caption hidden sm:inline-block">
-              AMPARO — SP · ATENDIMENTO BRASIL
+            <span className="hero-caption hidden sm:inline-flex">
+              GUARULHOS — SP · ATENDIMENTO BRASIL
             </span>
           </div>
         </section>
@@ -797,12 +797,12 @@ function Index() {
                 <div className="product-media">
                   <img src={prod.image} alt={prod.alt} loading="lazy" width={1200} height={800} />
                 </div>
-                
+
                 <div className="product-body">
                   <span className="product-client">{prod.client}</span>
                   <h3>{prod.name}</h3>
                   <p className="text-sm leading-relaxed text-muted-foreground">{prod.description}</p>
-                  
+
                   {/* Problem & Solution block */}
                   <div className="product-problem-solution">
                     <div className="ps-block">
@@ -826,19 +826,19 @@ function Index() {
                   </div>
 
                   <div className="product-actions">
-                    <Button 
-                      variant="ghost" 
-                      size="sm" 
+                    <Button
+                      variant="ghost"
+                      size="sm"
                       className="text-xs h-10 sm:h-9 gap-2 text-muted-foreground hover:text-foreground justify-center sm:justify-start"
                       onClick={() => setSelectedProject(prod)}
                     >
                       <Info className="w-3.5 h-3.5 text-primary" /> Ver estudo detalhado
                     </Button>
 
-                    <a 
-                      href={prod.url} 
-                      target="_blank" 
-                      rel="noopener noreferrer" 
+                    <a
+                      href={prod.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
                       className="inline-flex items-center justify-center sm:justify-start gap-1.5 text-xs font-semibold text-primary hover:underline h-10 sm:h-auto"
                     >
                       {prod.cta} <ExternalLink className="w-3.5 h-3.5" />
@@ -926,12 +926,12 @@ function Index() {
         <section id="sobre" className="section page-width section-border-top">
           <div className="founder-grid">
             <div className="founder-photo">
-              <img 
-                src={founder.url} 
-                alt="João Manuel Cesário de Jesus Oliveira, fundador da UMBRA e desenvolvedor Full Stack" 
-                loading="lazy" 
-                width={768} 
-                height={1366} 
+              <img
+                src={founder.url}
+                alt="João Manuel Cesário de Jesus Oliveira, fundador da UMBRA e desenvolvedor Full Stack"
+                loading="lazy"
+                width={768}
+                height={1366}
               />
               <div className="founder-label">
                 <p className="text-white font-bold text-sm">João Manuel Cesário de Jesus Oliveira</p>
@@ -942,7 +942,7 @@ function Index() {
             <div className="founder-content">
               <Eyebrow>POR TRÁS DA UMBRA</Eyebrow>
               <h2>Uma empresa criada para transformar problemas reais em produtos digitais.</h2>
-              
+
               <p>
                 A UMBRA nasceu quando João Manuel Cesário de Jesus Oliveira se perguntou como o seu domínio de tecnologia e engenharia de software poderiam contribuir diretamente para solucionar desafios reais de negócios e pessoas.
               </p>
@@ -1026,7 +1026,7 @@ function Index() {
             <div className="bg-card border border-border p-6 sm:p-8 rounded-lg shadow-2xl relative">
               {/* Stepper Header */}
               <div className="briefing-stepper">
-                <button 
+                <button
                   type="button"
                   className={`briefing-step-tab ${formStep === 1 ? 'active' : formStep > 1 ? 'completed' : ''}`}
                   onClick={() => setFormStep(1)}
@@ -1035,7 +1035,7 @@ function Index() {
                   <span>Contato</span>
                 </button>
                 <span className="text-muted-foreground/30 text-xs">/</span>
-                <button 
+                <button
                   type="button"
                   className={`briefing-step-tab ${formStep === 2 ? 'active' : formStep > 2 ? 'completed' : ''}`}
                   onClick={() => {
@@ -1046,7 +1046,7 @@ function Index() {
                   <span>Escopo</span>
                 </button>
                 <span className="text-muted-foreground/30 text-xs">/</span>
-                <button 
+                <button
                   type="button"
                   className={`briefing-step-tab ${formStep === 3 ? 'active' : ''}`}
                   onClick={() => {
@@ -1072,16 +1072,16 @@ function Index() {
                         <span>Seu nome</span>
                         <span className="field-required">*obrigatório</span>
                       </label>
-                      <input 
+                      <input
                         id="briefing-name"
-                        className="field" 
-                        placeholder="Como podemos chamar você?" 
-                        value={briefingData.name} 
+                        className="field"
+                        placeholder="Como podemos chamar você?"
+                        value={briefingData.name}
                         onChange={e => {
                           setBriefingData({ ...briefingData, name: e.target.value });
                           if (formValidationErrors.name) setFormValidationErrors({ ...formValidationErrors, name: '' });
-                        }} 
-                        autoComplete="name" 
+                        }}
+                        autoComplete="name"
                         maxLength={120}
                       />
                       {formValidationErrors.name && (
@@ -1096,17 +1096,17 @@ function Index() {
                         <span>Seu e-mail</span>
                         <span className="field-required">*obrigatório</span>
                       </label>
-                      <input 
+                      <input
                         id="briefing-email"
-                        className="field" 
-                        placeholder="voce@empresa.com" 
-                        type="email" 
-                        value={briefingData.email} 
+                        className="field"
+                        placeholder="voce@empresa.com"
+                        type="email"
+                        value={briefingData.email}
                         onChange={e => {
                           setBriefingData({ ...briefingData, email: e.target.value });
                           if (formValidationErrors.email) setFormValidationErrors({ ...formValidationErrors, email: '' });
-                        }} 
-                        autoComplete="email" 
+                        }}
+                        autoComplete="email"
                         maxLength={120}
                       />
                       {formValidationErrors.email && (
@@ -1123,13 +1123,13 @@ function Index() {
                         <span>WhatsApp / Telefone</span>
                         <span className="text-[10px] text-muted-foreground">opcional</span>
                       </label>
-                      <input 
+                      <input
                         id="briefing-phone"
-                        className="field" 
-                        placeholder="(DDD) 99999-9999" 
-                        value={briefingData.phone || ''} 
-                        onChange={e => setBriefingData({ ...briefingData, phone: e.target.value })} 
-                        autoComplete="tel" 
+                        className="field"
+                        placeholder="(DDD) 99999-9999"
+                        value={briefingData.phone || ''}
+                        onChange={e => setBriefingData({ ...briefingData, phone: e.target.value })}
+                        autoComplete="tel"
                         maxLength={30}
                       />
                     </div>
@@ -1139,21 +1139,21 @@ function Index() {
                         <span>Empresa ou Projeto</span>
                         <span className="text-[10px] text-muted-foreground">opcional</span>
                       </label>
-                      <input 
+                      <input
                         id="briefing-company"
-                        className="field" 
-                        placeholder="Nome da sua marca ou negócio" 
-                        value={briefingData.company || ''} 
-                        onChange={e => setBriefingData({ ...briefingData, company: e.target.value })} 
+                        className="field"
+                        placeholder="Nome da sua marca ou negócio"
+                        value={briefingData.company || ''}
+                        onChange={e => setBriefingData({ ...briefingData, company: e.target.value })}
                         maxLength={100}
                       />
                     </div>
                   </div>
 
                   <div className="pt-4 flex justify-end">
-                    <Button 
-                      type="button" 
-                      onClick={handleNextStep} 
+                    <Button
+                      type="button"
+                      onClick={handleNextStep}
                       className="w-full sm:w-auto h-11 sm:h-10 px-5 gap-2 text-xs font-semibold uppercase tracking-wider justify-center"
                     >
                       Avançar para escopo <ArrowRight className="w-4 h-4" />
@@ -1176,10 +1176,10 @@ function Index() {
                         <span>Tipo de solução</span>
                         <span className="field-required">*obrigatório</span>
                       </label>
-                      <select 
+                      <select
                         id="briefing-service"
-                        className="field" 
-                        value={briefingData.service} 
+                        className="field"
+                        value={briefingData.service}
                         onChange={e => setBriefingData({ ...briefingData, service: e.target.value })}
                       >
                         <option>Site institucional ou plataforma web</option>
@@ -1196,10 +1196,10 @@ function Index() {
                         <span>Fase atual do projeto</span>
                         <span className="text-[10px] text-muted-foreground">opcional</span>
                       </label>
-                      <select 
+                      <select
                         id="briefing-stage"
-                        className="field" 
-                        value={briefingData.stage || ''} 
+                        className="field"
+                        value={briefingData.stage || ''}
                         onChange={e => setBriefingData({ ...briefingData, stage: e.target.value })}
                       >
                         <option>Ideia inicial / Planejamento</option>
@@ -1215,16 +1215,16 @@ function Index() {
                       <span>Descrição do desafio ou projeto</span>
                       <span className="field-required">*mínimo 10 caracteres</span>
                     </label>
-                    <textarea 
+                    <textarea
                       id="briefing-description"
-                      className="field min-h-28 resize-y" 
-                      placeholder="Qual gargalo, processo ou necessidade este software deve solucionar? Quem são os usuários previstos?" 
-                      value={briefingData.description} 
+                      className="field min-h-28 resize-y"
+                      placeholder="Qual gargalo, processo ou necessidade este software deve solucionar? Quem são os usuários previstos?"
+                      value={briefingData.description}
                       onChange={e => {
                         setBriefingData({ ...briefingData, description: e.target.value });
                         if (formValidationErrors.description) setFormValidationErrors({ ...formValidationErrors, description: '' });
-                      }} 
-                      maxLength={5000} 
+                      }}
+                      maxLength={5000}
                     />
                     <span className="field-helper flex justify-between">
                       <span>Seja o mais específico possível quanto ao objetivo.</span>
@@ -1238,17 +1238,17 @@ function Index() {
                   </div>
 
                   <div className="pt-4 flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-between gap-3">
-                    <Button 
-                      type="button" 
-                      variant="ghost" 
-                      onClick={() => setFormStep(1)} 
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      onClick={() => setFormStep(1)}
                       className="text-xs h-11 sm:h-10 px-4 justify-center"
                     >
                       Voltar
                     </Button>
-                    <Button 
-                      type="button" 
-                      onClick={handleNextStep} 
+                    <Button
+                      type="button"
+                      onClick={handleNextStep}
                       className="h-11 sm:h-10 px-5 gap-2 text-xs font-semibold uppercase tracking-wider justify-center"
                     >
                       Revisar informações <ArrowRight className="w-4 h-4" />
@@ -1358,9 +1358,9 @@ function Index() {
                   {/* Action Buttons */}
                   <div className="space-y-3 pt-2">
                     <div className="grid gap-2 sm:grid-cols-2">
-                      <Button 
-                        type="button" 
-                        onClick={handleSendEmail} 
+                      <Button
+                        type="button"
+                        onClick={handleSendEmail}
                         disabled={isSubmittingEmail}
                         className="h-11 gap-2.5 font-semibold text-xs uppercase tracking-wider shadow-lg shadow-primary/20"
                       >
@@ -1375,10 +1375,10 @@ function Index() {
                         )}
                       </Button>
 
-                      <Button 
-                        type="button" 
+                      <Button
+                        type="button"
                         variant="outline"
-                        onClick={handleDownloadBriefing} 
+                        onClick={handleDownloadBriefing}
                         className="h-11 gap-2.5 text-xs font-semibold uppercase tracking-wider border-border hover:border-primary"
                       >
                         <Download className="w-4 h-4 text-primary" /> Baixar Briefing (.txt)
@@ -1386,30 +1386,30 @@ function Index() {
                     </div>
 
                     <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 pt-2">
-                      <Button 
-                        type="button" 
-                        variant="ghost" 
-                        onClick={() => setFormStep(2)} 
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        onClick={() => setFormStep(2)}
                         className="text-xs h-10 sm:h-9 px-3 justify-center"
                       >
                         Editar dados
                       </Button>
 
                       <div className="flex items-center justify-between sm:justify-end gap-2">
-                        <Button 
-                          type="button" 
-                          variant="ghost" 
-                          size="sm" 
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="sm"
                           onClick={handleCopySummary}
                           className="text-xs h-10 sm:h-9 gap-1.5 text-muted-foreground hover:text-foreground flex-1 sm:flex-none justify-center"
                         >
                           <Copy className="w-3.5 h-3.5" /> Copiar resumo
                         </Button>
 
-                        <a 
-                          href={generateWhatsAppUrl(briefingData)} 
-                          target="_blank" 
-                          rel="noopener noreferrer" 
+                        <a
+                          href={generateWhatsAppUrl(briefingData)}
+                          target="_blank"
+                          rel="noopener noreferrer"
                           className="inline-flex items-center justify-center gap-1.5 text-xs font-semibold text-success hover:underline px-3 py-2 rounded-md hover:bg-success/10 flex-1 sm:flex-none"
                         >
                           <MessageSquare className="w-3.5 h-3.5" /> Falar no WhatsApp
@@ -1454,8 +1454,7 @@ function Index() {
             <div>
               <h4 className="footer-col-title">Localização</h4>
               <p className="footer-text">
-                Amparo — SP<br />
-                Circuito das Águas Paulista<br />
+                Guarulhos — SP<br />
                 Brasil
               </p>
               <p className="footer-text mt-3 text-primary font-mono text-xs">
@@ -1486,10 +1485,10 @@ function Index() {
                 </span>
                 <h3 className="text-xl font-bold mt-0.5">{selectedProject.name}</h3>
               </div>
-              <Button 
-                variant="ghost" 
-                size="icon" 
-                onClick={() => setSelectedProject(null)} 
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => setSelectedProject(null)}
                 aria-label="Fechar modal de detalhes"
                 className="h-8 w-8 text-muted-foreground hover:text-foreground"
               >
@@ -1499,10 +1498,10 @@ function Index() {
 
             <div className="modal-body space-y-6">
               <div className="aspect-video w-full rounded-md overflow-hidden border border-border bg-surface-inset">
-                <img 
-                  src={selectedProject.image} 
-                  alt={selectedProject.alt} 
-                  className="w-full h-full object-cover" 
+                <img
+                  src={selectedProject.image}
+                  alt={selectedProject.alt}
+                  className="w-full h-full object-cover"
                 />
               </div>
 
@@ -1554,10 +1553,10 @@ function Index() {
               </div>
 
               <div className="pt-4 border-t border-border flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 sm:gap-4">
-                <a 
-                  href={selectedProject.url} 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
+                <a
+                  href={selectedProject.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="inline-flex items-center justify-center sm:justify-start gap-2 text-xs font-semibold text-primary hover:underline h-10 sm:h-auto"
                 >
                   Acessar aplicação em produção <ExternalLink className="w-3.5 h-3.5" />
@@ -1588,16 +1587,16 @@ function Index() {
               </p>
 
               <div className="space-y-2">
-                <Button 
-                  onClick={() => setConfirmationModal(null)} 
+                <Button
+                  onClick={() => setConfirmationModal(null)}
                   className="w-full text-xs font-semibold uppercase tracking-wider"
                 >
                   Continuar navegando
                 </Button>
 
-                <Button 
-                  variant="outline" 
-                  onClick={resetForm} 
+                <Button
+                  variant="outline"
+                  onClick={resetForm}
                   className="w-full text-xs"
                 >
                   Iniciar novo briefing
