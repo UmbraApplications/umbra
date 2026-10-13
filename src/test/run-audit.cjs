@@ -56,14 +56,18 @@ assert(css.includes('process-display-card'), 'styles.css missing process-display
 assert(css.includes('touch-action: manipulation'), 'styles.css missing touch-action manipulation');
 console.log('  [OK] All mobile CSS guards and breakpoints confirmed.');
 
-// 4. Audit index.tsx
-console.log('\n4. Checking src/routes/index.tsx:');
+// 4. Audit index.tsx & Header
+console.log('\n4. Checking src/routes/index.tsx & Header Architecture:');
 const indexTsx = fs.readFileSync(path.resolve(__dirname, '../../src/routes/index.tsx'), 'utf-8');
+assert(indexTsx.includes('header-container'), 'index.tsx missing header-container');
+assert(indexTsx.includes('header-nav'), 'index.tsx missing header-nav');
+assert(indexTsx.includes('mobile-menu-toggle'), 'index.tsx missing mobile-menu-toggle');
+assert(indexTsx.includes('mobile-nav-drawer'), 'index.tsx missing mobile-nav-drawer');
 assert(indexTsx.includes('/images/umbra-hero-2.jpg'), 'index.tsx hero image path');
 assert(indexTsx.includes('capabilities-grid'), 'index.tsx capabilities-grid class');
 assert(indexTsx.includes('document.body.style.overflow'), 'index.tsx scroll locking');
 assert(!indexTsx.includes('http://localhost'), 'index.tsx contains localhost');
-console.log('  [OK] index.tsx hero, capabilities, and scroll locking verified.');
+console.log('  [OK] index.tsx header, hero, capabilities, and scroll locking verified.');
 
 // 5. Audit server email & recipient
 console.log('\n5. Checking briefing configuration:');

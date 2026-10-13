@@ -526,12 +526,14 @@ function Index() {
 
   return (
     <>
-      {/* Sticky Engineered Header */}
+      {/* Sticky Precision Header */}
       <header className={`site-header ${headerScrolled ? 'scrolled' : ''}`} id="inicio">
-        <div className="page-width flex h-full items-center justify-between">
-          <Brand />
+        <div className="header-container">
+          <div className="header-left">
+            <Brand />
+          </div>
 
-          <nav className="hidden items-center gap-7 lg:flex" aria-label="Navegação principal">
+          <nav className="header-nav" aria-label="Navegação principal">
             {navLinks.map(([label, href]) => (
               <a key={href} href={href} className="nav-link font-medium">
                 {label}
@@ -539,28 +541,27 @@ function Index() {
             ))}
           </nav>
 
-          <div className="flex items-center gap-3">
-            <div className="status-chip hidden xl:inline-flex">
+          <div className="header-right">
+            <div className="status-chip hidden 2xl:inline-flex">
               <span className="status-dot" />
               <span>Disponível para projetos</span>
             </div>
 
-            <Button asChild variant="outline" className="hidden h-9 gap-2.5 px-4 text-xs font-semibold sm:inline-flex border-border/70 hover:border-primary hover:bg-primary/5 transition-all">
+            <Button asChild variant="outline" className="hidden md:inline-flex h-9 gap-2 px-3.5 text-xs font-semibold border-border/70 hover:border-primary hover:bg-primary/5 transition-all">
               <a href="#contato">
                 Vamos conversar <ArrowUpRight className="w-3.5 h-3.5 text-primary" />
               </a>
             </Button>
 
-            <Button
-              variant="ghost"
-              size="icon"
-              className="lg:hidden text-foreground h-9 w-9"
+            <button
+              type="button"
+              className="mobile-menu-toggle"
               aria-label={menuOpen ? 'Fechar menu' : 'Abrir menu'}
               aria-expanded={menuOpen}
               onClick={() => setMenuOpen(!menuOpen)}
             >
               {menuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-            </Button>
+            </button>
           </div>
         </div>
 
@@ -568,22 +569,23 @@ function Index() {
         {menuOpen && (
           <>
             <div
-              className="fixed inset-0 bg-black/60 z-40 lg:hidden backdrop-blur-sm"
+              className="mobile-backdrop"
               onClick={() => setMenuOpen(false)}
               aria-hidden="true"
             />
-            <nav className="mobile-nav" aria-label="Navegação móvel">
-              <div className="flex items-center justify-between pb-3 border-b border-border/40">
-                <span className="font-mono text-xs uppercase tracking-wider text-muted-foreground">Menu</span>
+            <nav className="mobile-nav-drawer" aria-label="Navegação móvel">
+              <div className="mobile-nav-header">
+                <span className="font-mono text-xs uppercase tracking-wider text-muted-foreground">Navegação</span>
                 <button
+                  type="button"
                   onClick={() => setMenuOpen(false)}
-                  className="text-muted-foreground hover:text-foreground p-1.5 rounded-md hover:bg-card/50"
+                  className="mobile-nav-close"
                   aria-label="Fechar menu móvel"
                 >
                   <X className="w-5 h-5" />
                 </button>
               </div>
-              <div className="flex flex-col gap-1 py-3 my-auto overflow-y-auto">
+              <div className="mobile-nav-list">
                 {navLinks.map(([label, href]) => (
                   <a
                     key={href}
@@ -596,10 +598,10 @@ function Index() {
                   </a>
                 ))}
               </div>
-              <div className="pt-4 mt-auto border-t border-border/40">
+              <div className="mobile-nav-footer">
                 <a
                   href="#contato"
-                  className="flex items-center justify-center gap-2 w-full rounded-md bg-primary py-3.5 px-4 text-sm font-semibold text-primary-foreground shadow-lg shadow-primary/25"
+                  className="mobile-nav-cta"
                   onClick={() => setMenuOpen(false)}
                 >
                   Iniciar briefing <ArrowUpRight className="w-4 h-4" />
