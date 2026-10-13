@@ -89,6 +89,7 @@
     scroll-behavior: smooth; 
     scroll-padding-top: 86px; 
     color-scheme: dark;
+    scrollbar-gutter: stable;
   }
   
   body { 
@@ -281,8 +282,10 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 40px;
-    height: 40px;
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    min-height: 44px;
     border-radius: var(--radius-sm);
     background: var(--surface-subtle);
     border: 1px solid var(--border-subtle);
@@ -308,7 +311,7 @@
     background: rgba(0, 0, 0, 0.72);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
-    z-index: 48;
+    z-index: 98;
     animation: fadeIn 0.2s ease both;
   }
 
@@ -324,9 +327,10 @@
     border-top: 1px solid var(--border);
     display: flex;
     flex-direction: column;
-    z-index: 49;
+    z-index: 99;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
     animation: slideDownMenu 0.25s cubic-bezier(0.16, 1, 0.3, 1) both;
     padding: 20px 24px 32px;
   }
@@ -355,8 +359,10 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 36px;
-    height: 36px;
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    min-height: 44px;
     border-radius: var(--radius-sm);
     background: var(--surface-subtle);
     border: 1px solid var(--border-subtle);
@@ -396,7 +402,7 @@
     border-top: 1px solid var(--border-subtle);
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 10px;
   }
 
   .mobile-nav-cta {
@@ -419,6 +425,65 @@
   }
   .mobile-nav-cta:active {
     opacity: 0.9;
+  }
+
+  .mobile-nav-whatsapp {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    min-height: 48px;
+    border-radius: var(--radius-sm);
+    background: rgba(37, 211, 102, 0.12);
+    border: 1px solid rgba(37, 211, 102, 0.3);
+    color: #25d366;
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    text-decoration: none;
+    transition: background-color 0.2s ease;
+  }
+  .mobile-nav-whatsapp:active {
+    background: rgba(37, 211, 102, 0.2);
+  }
+
+  /* Floating WhatsApp Button */
+  .floating-whatsapp-btn {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 45;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    border-radius: 9999px;
+    background: #25d366;
+    color: #ffffff !important;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    box-shadow: 0 4px 20px -2px rgba(37, 211, 102, 0.4), 0 2px 6px rgba(0, 0, 0, 0.3);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .floating-whatsapp-btn:hover {
+    transform: translateY(-2px) scale(1.03);
+    box-shadow: 0 6px 24px -2px rgba(37, 211, 102, 0.5), 0 4px 10px rgba(0, 0, 0, 0.4);
+    color: #ffffff !important;
+  }
+  .floating-whatsapp-btn:active {
+    transform: translateY(0) scale(0.98);
+  }
+  @media (max-width: 640px) {
+    .floating-whatsapp-btn {
+      bottom: 20px;
+      right: 18px;
+      padding: 10px 14px;
+      font-size: 12px;
+      gap: 6px;
+    }
   }
   
   /* Hero Section with controlled depth and typographic authority */
@@ -540,7 +605,16 @@
     letter-spacing: -0.03em;
     margin-block: 0 22px; 
   }
-  .hero h1 span, .hero-title span { 
+  .hero-title-main {
+    display: block;
+  }
+  .hero-title-sub {
+    display: inline;
+    text-wrap: balance;
+  }
+  .hero-title-highlight,
+  .hero h1 span, 
+  .hero-title span.hero-title-highlight { 
     color: var(--primary); 
     background: linear-gradient(135deg, var(--foreground) 0%, var(--primary) 65%);
     -webkit-background-clip: text;
@@ -1671,8 +1745,8 @@
   /* 2. Título principal e parágrafos com respiro lateral seguro */
   .hero h1,
   .hero-title { 
-    font-size: clamp(1.95rem, 7.5vw, 2.6rem) !important; 
-    line-height: 1.15 !important;
+    font-size: clamp(2.1rem, 8vw, 2.75rem) !important; 
+    line-height: 1.14 !important;
     letter-spacing: -0.035em !important;
     margin-block: 4px 16px !important;
     text-align: center !important;
@@ -1684,18 +1758,33 @@
     word-break: break-word !important;
     overflow-wrap: break-word !important;
   }
+  .hero-title-main {
+    display: block !important;
+    margin-bottom: 2px !important;
+  }
+  .hero-title-sub {
+    display: inline !important;
+    text-wrap: balance !important;
+  }
+  .hero-title-highlight {
+    color: var(--primary) !important;
+    background: linear-gradient(135deg, var(--foreground) 0%, var(--primary) 65%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+  }
   .hero-description {
-    font-size: 14.5px !important;
+    font-size: 15px !important;
     line-height: 1.68 !important;
     text-align: center !important;
     margin-inline: auto !important;
-    max-width: 440px !important;
+    max-width: 480px !important;
     width: 100% !important;
     padding-inline: 12px !important;
     box-sizing: border-box !important;
     color: var(--text-secondary) !important;
     word-break: break-word !important;
     overflow-wrap: break-word !important;
+    text-wrap: balance !important;
   }
 
   /* 3. CTA e alinhamento do bloco inicial sem sobreposições */

@@ -524,6 +524,38 @@ function Index() {
     setConfirmationModal(null);
   };
 
+  const scrollToTop = (e?: React.MouseEvent) => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+    document.documentElement.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+    document.body.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+
+    const topElement = document.getElementById('inicio');
+    if (topElement) {
+      topElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    if (window.location.hash) {
+      history.replaceState(null, '', window.location.pathname + window.location.search);
+    }
+  };
+
+  const handleNavClick = (href: string) => {
+    setMenuOpen(false);
+    setTimeout(() => {
+      if (href.startsWith('#')) {
+        const id = href.slice(1);
+        const element = document.getElementById(id);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }
+    }, 50);
+  };
+
   return (
     <>
       {/* Sticky Precision Header */}
@@ -542,7 +574,7 @@ function Index() {
           </nav>
 
           <div className="header-right">
-            <div className="status-chip hidden 2xl:inline-flex">
+            <div className="status-chip hidden xl:inline-flex">
               <span className="status-dot" />
               <span>Disponível para projetos</span>
             </div>
@@ -591,7 +623,10 @@ function Index() {
                     key={href}
                     href={href}
                     className="mobile-nav-link"
-                    onClick={() => setMenuOpen(false)}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleNavClick(href);
+                    }}
                   >
                     <span>{label}</span>
                     <ChevronRight className="w-4 h-4 text-primary/70" />
@@ -602,9 +637,22 @@ function Index() {
                 <a
                   href="#contato"
                   className="mobile-nav-cta"
-                  onClick={() => setMenuOpen(false)}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleNavClick('#contato');
+                  }}
                 >
                   Iniciar briefing <ArrowUpRight className="w-4 h-4" />
+                </a>
+                <a
+                  href="https://wa.me/5511941774214?text=Ol%C3%A1!%20Conheci%20a%20UMBRA%20pelo%20site%20e%20gostaria%20de%20conversar%20sobre%20um%20projeto."
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mobile-nav-whatsapp"
+                  onClick={() => setMenuOpen(false)}
+                >
+                  <MessageSquare className="w-4 h-4 text-success" />
+                  <span>Falar no WhatsApp</span>
                 </a>
               </div>
             </nav>
@@ -632,19 +680,19 @@ function Index() {
               </span>
               <span className="hero-status-tag">
                 <span className="status-dot" />
-                <span>OPERACIONAL · ESTRATÉGIA, CÓDIGO E DESIGN</span>
+                <span>ESTRATÉGIA, CÓDIGO E DESIGN</span>
               </span>
             </div>
 
             <h1 id="hero-title" className="hero-title">
-              UMBRA.<br />
-              Tecnologia para<br />
-              o seu <span>próximo passo.</span>
+              <span className="hero-title-main">UMBRA.</span>{' '}
+              <span className="hero-title-sub">
+                Tecnologia para o seu <span className="hero-title-highlight">próximo passo.</span>
+              </span>
             </h1>
 
             <p className="hero-description">
-              Sites, aplicativos e sistemas sob medida.<br className="hidden sm:inline" />
-              {" "}Transformamos problemas reais em produtos digitais funcionais, escaláveis e prontos para o mercado.
+              Sites, aplicativos e sistemas sob medida. Transformamos problemas reais em produtos digitais funcionais, escaláveis e prontos para o mercado.
             </p>
 
             <div className="hero-cta-group">
@@ -1029,11 +1077,24 @@ function Index() {
                   {UMBRA_CONTACT.name}
                 </p>
                 <p className="text-xs text-primary font-mono mt-0.5">
-                  {UMBRA_CONTACT.email}
+                  <a href={`mailto:${UMBRA_CONTACT.email}`} className="hover:underline">
+                    {UMBRA_CONTACT.email}
+                  </a>
                 </p>
                 <p className="text-xs text-muted-foreground mt-0.5">
                   {UMBRA_CONTACT.city}
                 </p>
+                <div className="mt-3 pt-3 border-t border-border-subtle">
+                  <a
+                    href="https://wa.me/5511941774214?text=Ol%C3%A1!%20Conheci%20a%20UMBRA%20pelo%20site%20e%20gostaria%20de%20conversar%20sobre%20um%20projeto."
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 text-xs font-semibold text-success hover:underline"
+                    aria-label="Falar com a UMBRA no WhatsApp"
+                  >
+                    <MessageSquare className="w-3.5 h-3.5" /> Falar direto no WhatsApp: (11) 94177-4214
+                  </a>
+                </div>
               </div>
             </div>
 
@@ -1467,13 +1528,26 @@ function Index() {
             </div>
 
             <div>
-              <h4 className="footer-col-title">Localização</h4>
+              <h4 className="footer-col-title">Localização &amp; Contato</h4>
               <p className="footer-text">
                 Guarulhos — SP<br />
                 Brasil
               </p>
               <p className="footer-text mt-3 text-primary font-mono text-xs">
-                {UMBRA_CONTACT.email}
+                <a href={`mailto:${UMBRA_CONTACT.email}`} className="hover:underline">
+                  {UMBRA_CONTACT.email}
+                </a>
+              </p>
+              <p className="footer-text mt-2 font-mono text-xs">
+                <a
+                  href="https://wa.me/5511941774214?text=Ol%C3%A1!%20Conheci%20a%20UMBRA%20pelo%20site%20e%20gostaria%20de%20conversar%20sobre%20um%20projeto."
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 text-success hover:underline font-semibold"
+                  aria-label="Falar no WhatsApp oficial da UMBRA"
+                >
+                  <MessageSquare className="w-3.5 h-3.5" /> (11) 94177-4214
+                </a>
               </p>
             </div>
           </div>
@@ -1482,9 +1556,14 @@ function Index() {
             <span className="footer-text">
               © 2026 UMBRA Applications. Todos os direitos reservados. Tecnologia com propósito.
             </span>
-            <a href="#inicio" className="footer-text flex items-center gap-1.5 hover:text-foreground transition-colors font-medium">
+            <button
+              type="button"
+              onClick={scrollToTop}
+              className="footer-text flex items-center gap-1.5 hover:text-foreground transition-colors font-medium bg-transparent border-0 p-0 cursor-pointer text-left"
+              aria-label="Voltar ao início da página"
+            >
               Voltar ao topo <ArrowUpRight size={14} className="text-primary" />
-            </a>
+            </button>
           </div>
         </div>
       </footer>
@@ -1621,6 +1700,19 @@ function Index() {
           </div>
         </div>
       )}
+
+      {/* Floating WhatsApp Action Button */}
+      <a
+        href="https://wa.me/5511941774214?text=Ol%C3%A1!%20Conheci%20a%20UMBRA%20pelo%20site%20e%20gostaria%20de%20conversar%20sobre%20um%20projeto."
+        target="_blank"
+        rel="noopener noreferrer"
+        className="floating-whatsapp-btn"
+        aria-label="Falar no WhatsApp oficial da UMBRA (11 94177-4214)"
+        title="Falar no WhatsApp da UMBRA"
+      >
+        <MessageSquare className="w-5 h-5 text-white" />
+        <span className="floating-whatsapp-text">WhatsApp</span>
+      </a>
     </>
   );
 }

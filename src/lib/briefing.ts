@@ -13,8 +13,12 @@ export const UMBRA_CONTACT = {
   name: 'João Manuel Cesário de Jesus Oliveira',
   role: 'Fundador & Desenvolvedor Full Stack',
   email: 'ofc.umbra@gmail.com',
+  phone: '11941774214',
+  phoneFormatted: '(11) 94177-4214',
+  whatsappNumber: '5511941774214',
+  whatsappUrl: 'https://wa.me/5511941774214?text=Ol%C3%A1!%20Conheci%20a%20UMBRA%20pelo%20site%20e%20gostaria%20de%20conversar%20sobre%20um%20projeto.',
   company: 'UMBRA Applications',
-  city: 'Amparo — SP, Circuito das Águas',
+  city: 'Guarulhos — SP',
 };
 
 export interface SendBriefingResult {
@@ -96,7 +100,7 @@ export function generateMailtoUrl(data: BriefingData): string {
 }
 
 /**
- * Generates a WhatsApp direct messaging link with concise summary.
+ * Generates a WhatsApp direct messaging link with concise summary directed to official number.
  */
 export function generateWhatsAppUrl(data: BriefingData): string {
   const text = [
@@ -114,7 +118,15 @@ export function generateWhatsAppUrl(data: BriefingData): string {
     .filter(Boolean)
     .join('\n');
 
-  return `https://wa.me/?text=${encodeURIComponent(text)}`;
+  return `https://wa.me/5511941774214?text=${encodeURIComponent(text)}`;
+}
+
+/**
+ * Generates official general WhatsApp direct link for sales and technical inquiries.
+ */
+export function generateWhatsAppGeneralUrl(message?: string): string {
+  const text = message || 'Olá! Conheci a UMBRA pelo site e gostaria de conversar sobre um projeto.';
+  return `https://wa.me/5511941774214?text=${encodeURIComponent(text)}`;
 }
 
 /**

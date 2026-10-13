@@ -53,12 +53,13 @@ describe('Briefing Client Library', () => {
     expect(url).toContain(encodeURIComponent('Sistema empresarial sob medida / ERP'));
   });
 
-  it('generateWhatsAppUrl deve formatar resumo com dados principais', () => {
+  it('generateWhatsAppUrl deve direcionar para o número oficial 5511941774214 com resumo codificado', () => {
     const url = generateWhatsAppUrl(sampleBriefing);
 
-    expect(url.startsWith('https://wa.me/?text=')).toBe(true);
+    expect(url.startsWith('https://wa.me/5511941774214?text=')).toBe(true);
     expect(url).toContain(encodeURIComponent('Carlos Oliveira'));
     expect(url).toContain(encodeURIComponent('carlos@empresa.com.br'));
+    expect(UMBRA_CONTACT.whatsappNumber).toBe('5511941774214');
   });
 
   it('sendBriefingViaApi deve validar campos obrigatórios localmente antes de disparar requisição', async () => {

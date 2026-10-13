@@ -48,16 +48,19 @@ for (const f of assetJsonFiles) {
 console.log('\n3. Checking styles.css mobile-first responsive rules:');
 const css = fs.readFileSync(path.resolve(__dirname, '../../src/styles.css'), 'utf-8');
 assert(css.includes('overflow-x: hidden'), 'styles.css missing overflow-x: hidden guard');
+assert(css.includes('scrollbar-gutter: stable'), 'styles.css missing scrollbar-gutter: stable guard');
 assert(css.includes('@media (max-width: 640px)'), 'styles.css missing 640px breakpoint');
 assert(css.includes('@media (max-width: 380px)'), 'styles.css missing 380px breakpoint');
 assert(css.includes('font-size: 16px !important'), 'styles.css missing iOS Safari 16px input zoom guard');
 assert(css.includes('capabilities-grid'), 'styles.css missing capabilities-grid');
 assert(css.includes('process-display-card'), 'styles.css missing process-display-card');
 assert(css.includes('touch-action: manipulation'), 'styles.css missing touch-action manipulation');
-console.log('  [OK] All mobile CSS guards and breakpoints confirmed.');
+assert(css.includes('floating-whatsapp-btn'), 'styles.css missing floating-whatsapp-btn');
+assert(css.includes('mobile-nav-whatsapp'), 'styles.css missing mobile-nav-whatsapp');
+console.log('  [OK] All mobile CSS guards, floating WhatsApp and breakpoints confirmed.');
 
-// 4. Audit index.tsx & Header
-console.log('\n4. Checking src/routes/index.tsx & Header Architecture:');
+// 4. Audit index.tsx & Navigation
+console.log('\n4. Checking src/routes/index.tsx, Navigation & Voltar ao Topo:');
 const indexTsx = fs.readFileSync(path.resolve(__dirname, '../../src/routes/index.tsx'), 'utf-8');
 assert(indexTsx.includes('header-container'), 'index.tsx missing header-container');
 assert(indexTsx.includes('header-nav'), 'index.tsx missing header-nav');
@@ -65,15 +68,22 @@ assert(indexTsx.includes('mobile-menu-toggle'), 'index.tsx missing mobile-menu-t
 assert(indexTsx.includes('mobile-nav-drawer'), 'index.tsx missing mobile-nav-drawer');
 assert(indexTsx.includes('/images/umbra-hero-2.jpg'), 'index.tsx hero image path');
 assert(indexTsx.includes('capabilities-grid'), 'index.tsx capabilities-grid class');
-assert(indexTsx.includes('document.body.style.overflow'), 'index.tsx scroll locking');
+assert(indexTsx.includes('scrollToTop'), 'index.tsx missing scrollToTop function');
+assert(indexTsx.includes('handleNavClick'), 'index.tsx missing handleNavClick function');
+assert(indexTsx.includes('Voltar ao topo'), 'index.tsx missing Voltar ao topo button');
+assert(indexTsx.includes('5511941774214'), 'index.tsx missing official WhatsApp number 5511941774214');
+assert(indexTsx.includes('floating-whatsapp-btn'), 'index.tsx missing floating-whatsapp-btn');
 assert(!indexTsx.includes('http://localhost'), 'index.tsx contains localhost');
-console.log('  [OK] index.tsx header, hero, capabilities, and scroll locking verified.');
+console.log('  [OK] index.tsx header, hero, scrollToTop, WhatsApp 5511941774214 and drawer verified.');
 
-// 5. Audit server email & recipient
-console.log('\n5. Checking briefing configuration:');
+// 5. Audit server email & official WhatsApp recipient
+console.log('\n5. Checking briefing & WhatsApp configuration:');
 const briefingTs = fs.readFileSync(path.resolve(__dirname, '../../src/lib/briefing.ts'), 'utf-8');
 assert(briefingTs.includes('ofc.umbra@gmail.com'), 'briefing.ts official email');
 assert(!briefingTs.includes('joaomanueloliveira@gmail.com'), 'briefing.ts still contains old email');
-console.log('  [OK] Official email ofc.umbra@gmail.com confirmed.');
+assert(briefingTs.includes('5511941774214'), 'briefing.ts official WhatsApp number 5511941774214');
+assert(briefingTs.includes('generateWhatsAppUrl'), 'briefing.ts missing generateWhatsAppUrl');
+assert(briefingTs.includes('generateWhatsAppGeneralUrl'), 'briefing.ts missing generateWhatsAppGeneralUrl');
+console.log('  [OK] Official email ofc.umbra@gmail.com and WhatsApp 5511941774214 confirmed.');
 
 console.log('\n>>> ALL AUDIT CHECKS PASSED SUCCESSFULLY! <<<\n');
