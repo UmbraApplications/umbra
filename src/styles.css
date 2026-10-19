@@ -157,7 +157,7 @@
   /* Contêiner de largura responsiva padronizado */
   .page-width { 
     width: 100%;
-    max-width: 1240px; 
+    max-width: 1280px; 
     margin-inline: auto; 
     padding-inline: 1.25rem;
   }
@@ -170,7 +170,7 @@
 
   /* Header Sticky Nav */
   .site-header { 
-    height: 72px; 
+    height: 80px; 
     border-bottom: 1px solid var(--border-subtle); 
     position: sticky; 
     top: 0; 
@@ -192,17 +192,17 @@
     width: 100%;
     max-width: 1360px;
     margin-inline: auto;
-    padding-inline: 1.25rem;
+    padding-inline: 1.5rem;
     height: 100%;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 16px;
+    gap: 32px;
   }
 
   @media (min-width: 768px) {
     .header-container {
-      padding-inline: 2rem;
+      padding-inline: 2.5rem;
     }
   }
 
@@ -238,9 +238,9 @@
     display: none;
     align-items: center;
     justify-content: center;
-    gap: clamp(12px, 1.5vw, 24px);
+    gap: clamp(18px, 2.2vw, 36px);
     margin-inline: auto;
-    padding-inline: 8px;
+    padding-inline: 16px;
   }
 
   @media (min-width: 1120px) {
@@ -250,13 +250,13 @@
   }
 
   .nav-link { 
-    font-size: 13px; 
+    font-size: 13.5px; 
     font-weight: 500;
     color: var(--muted-foreground); 
     text-decoration: none;
     transition: color 0.2s ease; 
     position: relative;
-    padding: 6px 4px;
+    padding: 8px 6px;
     white-space: nowrap;
   }
   .nav-link:hover, .nav-link.active { 
@@ -265,10 +265,10 @@
   .nav-link.active::after {
     content: '';
     position: absolute;
-    bottom: 0;
+    bottom: -2px;
     left: 0;
     right: 0;
-    height: 1.5px;
+    height: 2px;
     background: var(--primary);
   }
 
@@ -276,18 +276,18 @@
     flex-shrink: 0;
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 16px;
   }
 
   .status-chip {
     display: inline-flex;
     align-items: center;
-    gap: 7px;
+    gap: 8px;
     font-family: var(--font-mono);
     font-size: 11px;
     font-weight: 500;
     letter-spacing: 0.04em;
-    padding: 5px 12px;
+    padding: 6px 14px;
     border-radius: 9999px;
     background: var(--surface-subtle);
     border: 1px solid var(--border);
@@ -463,8 +463,8 @@
   /* Hero Section */
   .hero { 
     position: relative; 
-    min-height: 580px; 
-    padding-block: 48px;
+    min-height: 600px; 
+    padding-block: 64px 48px;
     isolation: isolate; 
     display: flex; 
     align-items: center; 
@@ -515,8 +515,8 @@
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 10px;
-    margin-bottom: 20px;
+    gap: 12px;
+    margin-bottom: 24px;
     width: 100%;
   }
 
@@ -559,7 +559,7 @@
     line-height: 1.1; 
     font-weight: 700; 
     letter-spacing: -0.03em;
-    margin-block: 0 20px; 
+    margin-block: 0 24px; 
   }
   .hero-title-main {
     display: block;
@@ -576,23 +576,23 @@
   }
   .hero-description { 
     color: var(--text-secondary); 
-    max-width: 520px; 
+    max-width: 540px; 
     font-size: clamp(0.95rem, 1.8vw, 1.05rem); 
-    line-height: 1.65; 
+    line-height: 1.7; 
     font-weight: 400;
   }
   .hero-cta-group {
-    margin-top: 28px;
+    margin-top: 32px;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 14px;
+    gap: 16px;
   }
   
   /* Capabilities Bar */
   .capabilities { 
     border-bottom: 1px solid var(--border-subtle); 
-    padding-block: 20px; 
+    padding-block: 22px; 
     background: var(--surface-alt); 
   }
   .capabilities-grid {
@@ -617,7 +617,7 @@
     gap: 8px; 
     font-weight: 600; 
     letter-spacing: 0.01em;
-    padding: 8px 12px;
+    padding: 10px 14px;
     background: var(--card);
     border: 1px solid var(--border-subtle);
     border-radius: var(--radius-sm);
@@ -631,7 +631,7 @@
 
   /* Seções Gerais */
   .section { 
-    padding-block: 56px; 
+    padding-block: 64px; 
   }
   @media (min-width: 768px) {
     .section {
@@ -742,13 +742,12 @@
     line-height: 1.7; 
   }
 
-  /* Process Flow / Timeline (Navegação num) */
   /* Process Flow / Timeline (Navegação numérica com rolagem touch perfeita) */
   .process-timeline { 
     border-block: 1px solid var(--border-subtle); 
     background: var(--surface-alt); 
     width: 100%;
-    overflow: hidden; /* Evita que a página inteira balance */
+    overflow: hidden;
   }
 
   .process-nav { 
@@ -757,17 +756,17 @@
     overflow-x: auto !important;
     overflow-y: hidden;
     scroll-snap-type: x mandatory;
-    -webkit-overflow-scrolling: touch; /* Suporte suave para iOS Safari */
-    touch-action: pan-x; /* Diga ao navegador para aceitar o gesto horizontal do dedo */
+    -webkit-overflow-scrolling: touch; 
+    touch-action: pan-x; 
     border-bottom: 1px solid var(--border-subtle); 
     background: var(--card);
-    scrollbar-width: none; /* Esconde a barra feia no Firefox */
+    scrollbar-width: none; 
     width: 100%;
     max-width: 100%;
   }
 
   .process-nav::-webkit-scrollbar {
-    display: none; /* Esconde a barra no Chrome/Safari */
+    display: none; 
   }
 
   @media (min-width: 1024px) {
@@ -779,10 +778,10 @@
   }
 
   .process-nav-item { 
-    flex: 0 0 auto !important; /* IMPRESCINDÍVEL: Impede o item de encolher no mobile */
-    min-width: 140px;
+    flex: 0 0 auto !important; 
+    min-width: 145px;
     scroll-snap-align: start;
-    padding: 16px 14px; 
+    padding: 18px 16px; 
     border-right: 1px solid var(--border-subtle); 
     background: transparent; 
     text-align: left; 
@@ -792,7 +791,7 @@
     border-top: none;
     border-left: none;
     border-bottom: none;
-    user-select: none; /* Evita selecionar o texto sem querer ao arrastar com o dedo */
+    user-select: none; 
   }
 
   @media (min-width: 1024px) {
@@ -801,9 +800,7 @@
       padding: 22px 18px;
     }
   }
- 
-  
-  }
+
   .process-nav-item:last-child { 
     border-right: none; 
   }
