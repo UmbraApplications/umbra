@@ -670,25 +670,25 @@
     line-height: 1.7; 
   }
 
-  /* Grids de Cards (Why, Architecture, Labs) */
-  .why-grid, .architecture-grid, .labs-grid { 
+  /* Why UMBRA Grid */
+  .why-grid, .labs-grid { 
     display: grid; 
     grid-template-columns: 1fr; 
     gap: 16px; 
   }
   @media (min-width: 640px) {
-    .why-grid, .architecture-grid, .labs-grid {
+    .why-grid, .labs-grid {
       grid-template-columns: repeat(2, 1fr);
     }
   }
   @media (min-width: 1024px) {
-    .why-grid, .architecture-grid, .labs-grid {
+    .why-grid, .labs-grid {
       grid-template-columns: repeat(4, 1fr);
       gap: 20px;
     }
   }
 
-  .why-card, .labs-card, .architecture-col { 
+  .why-card, .labs-card { 
     border: 1px solid var(--border-subtle); 
     background: var(--card); 
     padding: 24px 20px; 
@@ -698,11 +698,11 @@
     transition: border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease;
   }
   @media (min-width: 768px) {
-    .why-card, .labs-card, .architecture-col {
+    .why-card, .labs-card {
       padding: 32px 26px;
     }
   }
-  .why-card:hover, .labs-card:hover, .architecture-col:hover { 
+  .why-card:hover, .labs-card:hover { 
     border-color: var(--border-hover); 
     background: var(--card-hover);
     transform: translateY(-3px); 
@@ -742,19 +742,21 @@
     line-height: 1.7; 
   }
 
-  /* Process Flow / Timeline */
+  /* Process Flow / Timeline (Navegação num) */
   .process-timeline { 
     border-block: 1px solid var(--border-subtle); 
     background: var(--surface-alt); 
   }
   .process-nav { 
     display: flex; 
+    flex-wrap: nowrap;
     overflow-x: auto;
     scroll-snap-type: x mandatory;
     -webkit-overflow-scrolling: touch;
     border-bottom: 1px solid var(--border-subtle); 
     background: var(--card);
     scrollbar-width: none;
+    width: 100%;
   }
   .process-nav::-webkit-scrollbar {
     display: none;
@@ -768,7 +770,7 @@
   }
   .process-nav-item { 
     flex: 0 0 auto;
-    min-width: 140px;
+    min-width: 150px;
     scroll-snap-align: start;
     padding: 16px 14px; 
     border-right: 1px solid var(--border-subtle); 
@@ -819,6 +821,8 @@
     font-size: 13px; 
     font-weight: 600; 
     color: var(--muted-foreground); 
+    display: block;
+    line-height: 1.3;
   }
   .process-nav-item.active .process-nav-title { 
     color: var(--foreground); 
@@ -853,6 +857,103 @@
     .process-display-number {
       font-size: 64px;
     }
+  }
+
+  /* O QUE PODEMOS CONSTRUIR (ARQUITETURA & SERVIÇOS) */
+  .architecture-grid { 
+    display: grid; 
+    grid-template-columns: 1fr; 
+    gap: 16px; 
+  }
+  @media (min-width: 640px) {
+    .architecture-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (min-width: 1024px) {
+    .architecture-grid {
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+  }
+
+  .architecture-col { 
+    border: 1px solid var(--border-subtle); 
+    background: var(--card); 
+    border-radius: var(--radius-md); 
+    padding: 24px 20px; 
+    display: flex; 
+    flex-direction: column;
+    transition: border-color 0.25s ease, transform 0.25s ease, background-color 0.25s ease;
+  }
+  @media (min-width: 768px) {
+    .architecture-col {
+      padding: 28px 24px;
+    }
+  }
+  .architecture-col:hover { 
+    border-color: var(--border-hover); 
+    background: var(--card-hover);
+    transform: translateY(-2px);
+  }
+  .architecture-header { 
+    display: flex; 
+    align-items: center; 
+    justify-content: space-between; 
+    padding-bottom: 16px; 
+    border-bottom: 1px solid var(--border-subtle); 
+    margin-bottom: 20px; 
+    gap: 8px;
+  }
+  .architecture-category { 
+    font-family: var(--font-display); 
+    font-size: 15px; 
+    font-weight: 700; 
+    letter-spacing: 0.02em; 
+    color: var(--foreground);
+  }
+  .architecture-badge { 
+    font-family: var(--font-mono);
+    font-size: 10px; 
+    text-transform: uppercase; 
+    font-weight: 600; 
+    padding: 3px 8px; 
+    border-radius: var(--radius-sm); 
+    background: var(--primary-soft); 
+    color: var(--primary); 
+    border: 1px solid oklch(0.62 0.23 295 / 0.25);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .architecture-list { 
+    list-style: none; 
+    padding: 0; 
+    margin: 0; 
+    display: flex; 
+    flex-direction: column; 
+    gap: 12px; 
+  }
+  .architecture-item { 
+    font-size: 13.5px; 
+    color: var(--muted-foreground); 
+    display: flex; 
+    align-items: center; 
+    gap: 10px; 
+    line-height: 1.4;
+    transition: color 0.2s ease, transform 0.2s ease; 
+  }
+  .architecture-item:hover { 
+    color: var(--foreground); 
+    transform: translateX(3px); 
+  }
+  .architecture-bullet { 
+    width: 6px; 
+    height: 6px; 
+    border-radius: 50%; 
+    background: var(--primary); 
+    box-shadow: 0 0 8px var(--primary-glow);
+    flex-shrink: 0; 
+    display: inline-block;
   }
 
   /* Portfólio */
