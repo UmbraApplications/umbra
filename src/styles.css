@@ -743,34 +743,44 @@
   }
 
   /* Process Flow / Timeline (Navegação num) */
+  /* Process Flow / Timeline (Navegação numérica com rolagem touch perfeita) */
   .process-timeline { 
     border-block: 1px solid var(--border-subtle); 
     background: var(--surface-alt); 
+    width: 100%;
+    overflow: hidden; /* Evita que a página inteira balance */
   }
+
   .process-nav { 
-    display: flex; 
-    flex-wrap: nowrap;
-    overflow-x: auto;
+    display: flex !important; 
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    overflow-y: hidden;
     scroll-snap-type: x mandatory;
-    -webkit-overflow-scrolling: touch;
+    -webkit-overflow-scrolling: touch; /* Suporte suave para iOS Safari */
+    touch-action: pan-x; /* Diga ao navegador para aceitar o gesto horizontal do dedo */
     border-bottom: 1px solid var(--border-subtle); 
     background: var(--card);
-    scrollbar-width: none;
+    scrollbar-width: none; /* Esconde a barra feia no Firefox */
     width: 100%;
+    max-width: 100%;
   }
+
   .process-nav::-webkit-scrollbar {
-    display: none;
+    display: none; /* Esconde a barra no Chrome/Safari */
   }
+
   @media (min-width: 1024px) {
     .process-nav {
-      display: grid;
+      display: grid !important;
       grid-template-columns: repeat(5, 1fr);
-      overflow-x: visible;
+      overflow-x: visible !important;
     }
   }
+
   .process-nav-item { 
-    flex: 0 0 auto;
-    min-width: 150px;
+    flex: 0 0 auto !important; /* IMPRESCINDÍVEL: Impede o item de encolher no mobile */
+    min-width: 140px;
     scroll-snap-align: start;
     padding: 16px 14px; 
     border-right: 1px solid var(--border-subtle); 
@@ -782,12 +792,17 @@
     border-top: none;
     border-left: none;
     border-bottom: none;
+    user-select: none; /* Evita selecionar o texto sem querer ao arrastar com o dedo */
   }
+
   @media (min-width: 1024px) {
     .process-nav-item {
       min-width: auto;
       padding: 22px 18px;
     }
+  }
+ 
+  
   }
   .process-nav-item:last-child { 
     border-right: none; 
