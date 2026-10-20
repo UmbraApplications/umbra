@@ -667,7 +667,7 @@ function Index() {
           <div className="header-right">
             <div className="status-chip hidden xl:inline-flex">
               <span className="status-dot" />
-              <span>Disponível para projetos</span>
+              <span>Disponível para projetos </span>
             </div>
 
             <Button asChild variant="outline" className="hidden md:inline-flex h-9 gap-2 px-3.5 text-xs font-semibold border-border/70 hover:border-primary hover:bg-primary/5 transition-all">
