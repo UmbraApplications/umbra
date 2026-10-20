@@ -51,7 +51,7 @@ export const Route = createFileRoute('/')({
   component: Index,
 });
 
-// Data repositories
+// Repositório de dados
 const navLinks: [string, string][] = [
   ['Início', '#inicio'],
   ['Por que UMBRA', '#por-que-umbra'],
@@ -339,7 +339,7 @@ function Index() {
   const [activeStep, setActiveStep] = useState(0);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
-  // Multi-step Briefing Form state
+  // Estado do formulário de briefing
   const [formStep, setFormStep] = useState<1 | 2 | 3>(1);
   const [briefingData, setBriefingData] = useState<BriefingData>({
     name: '',
@@ -355,7 +355,6 @@ function Index() {
   const [formValidationErrors, setFormValidationErrors] = useState<Record<string, string>>({});
   const [isSubmittingEmail, setIsSubmittingEmail] = useState(false);
 
-  // Submission status handling (preserves data and provides clear feedback)
   const [submissionFeedback, setSubmissionFeedback] = useState<{
     status: 'idle' | 'unconfigured' | 'error';
     message: string;
@@ -368,7 +367,7 @@ function Index() {
     message: string;
   } | null>(null);
 
-  // Scroll listener for header elevation
+  // Header elevado ao rolar a página
   useEffect(() => {
     const handleScroll = () => {
       setHeaderScrolled(window.scrollY > 20);
@@ -377,7 +376,101 @@ function Index() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Close modals on Escape key
+  // Animações visuais, Scroll Reveal, Spotlight e Drag do processo
+  useEffect(() => {
+    // 1. Scroll Reveal
+    const observerOptions = {
+      root: null,
+      rootMargin: '0px 0px -40px 0px',
+      threshold: 0.08
+    };
+
+    const revealObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
+
+    const elementsToReveal = document.querySelectorAll(
+      '.why-card, .architecture-col, .product-card, .tech-layer-card, .labs-card, .metric-item, .contact-grid, .founder-photo'
+    );
+
+    elementsToReveal.forEach(el => {
+      el.classList.add('reveal-on-scroll');
+      revealObserver.observe(el);
+    });
+
+    // 2. Spotlight no Mouse
+    const interactiveCards = document.querySelectorAll('.why-card, .architecture-col, .labs-card, .product-card');
+    
+    const handleMouseMove = (e: MouseEvent, card: Element) => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      (card as HTMLElement).style.setProperty('--mouse-x', `${x}px`);
+      (card as HTMLElement).style.setProperty('--mouse-y', `${y}px`);
+    };
+
+    const mouseListeners: Array<{ card: Element; listener: (e: MouseEvent) => void }> = [];
+
+    interactiveCards.forEach(card => {
+      card.classList.add('card-spotlight');
+      const listener = (e: MouseEvent) => handleMouseMove(e, card);
+      card.addEventListener('mousemove', listener as EventListener);
+      mouseListeners.push({ card, listener: listener as EventListener });
+    });
+
+    // 3. Arraste com Mouse na Barra Numérica
+    const processNav = document.querySelector('.process-nav') as HTMLElement;
+    let isMouseDown = false;
+    let startX = 0;
+    let scrollLeft = 0;
+
+    const onMouseDown = (e: MouseEvent) => {
+      isMouseDown = true;
+      startX = e.pageX - processNav.offsetLeft;
+      scrollLeft = processNav.scrollLeft;
+      processNav.style.cursor = 'grabbing';
+    };
+
+    const onMouseLeaveOrUp = () => {
+      isMouseDown = false;
+      if (processNav) processNav.style.cursor = 'pointer';
+    };
+
+    const onMouseMove = (e: MouseEvent) => {
+      if (!isMouseDown || !processNav) return;
+      e.preventDefault();
+      const x = e.pageX - processNav.offsetLeft;
+      const walk = (x - startX) * 1.8;
+      processNav.scrollLeft = scrollLeft - walk;
+    };
+
+    if (processNav) {
+      processNav.addEventListener('mousedown', onMouseDown);
+      processNav.addEventListener('mouseleave', onMouseLeaveOrUp);
+      processNav.addEventListener('mouseup', onMouseLeaveOrUp);
+      processNav.addEventListener('mousemove', onMouseMove);
+    }
+
+    return () => {
+      revealObserver.disconnect();
+      mouseListeners.forEach(({ card, listener }) => {
+        card.removeEventListener('mousemove', listener as EventListener);
+      });
+      if (processNav) {
+        processNav.removeEventListener('mousedown', onMouseDown);
+        processNav.removeEventListener('mouseleave', onMouseLeaveOrUp);
+        processNav.removeEventListener('mouseup', onMouseLeaveOrUp);
+        processNav.removeEventListener('mousemove', onMouseMove);
+      }
+    };
+  }, []);
+
+  // Fechar modais com tecla ESC
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
@@ -390,7 +483,7 @@ function Index() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
-  // Lock body scroll when mobile menu or modals are open
+  // Bloquear rolagem do corpo durante exibição de modais
   useEffect(() => {
     if (menuOpen || selectedProject || confirmationModal) {
       document.body.style.overflow = 'hidden';
@@ -444,7 +537,7 @@ function Index() {
   };
 
   const handleSendEmail = async () => {
-    if (isSubmittingEmail) return; // Prevent duplicate concurrent requests
+    if (isSubmittingEmail) return;
 
     if (!validateStep1() || !validateStep2()) {
       return;
@@ -457,7 +550,6 @@ function Index() {
       const result = await sendBriefingViaApi(briefingData);
 
       if (result.success && result.delivered) {
-        // Only trigger real "sent" feedback when server actually completed delivery
         setConfirmationModal({
           open: true,
           type: 'email',
@@ -465,7 +557,6 @@ function Index() {
           message: `Seu briefing foi entregue ao servidor e encaminhado para o e-mail oficial ${UMBRA_CONTACT.email}. Entraremos em contato com a análise preliminar.`,
         });
       } else if (!result.configured) {
-        // Explicitly inform missing external server configuration without falsely claiming completion
         setSubmissionFeedback({
           status: 'unconfigured',
           message: result.message,
@@ -558,7 +649,7 @@ function Index() {
 
   return (
     <>
-      {/* Sticky Precision Header */}
+      {/* Header Sticky */}
       <header className={`site-header ${headerScrolled ? 'scrolled' : ''}`} id="inicio">
         <div className="header-container">
           <div className="header-left">
@@ -597,7 +688,7 @@ function Index() {
           </div>
         </div>
 
-        {/* Mobile Navigation Drawer & Backdrop */}
+        {/* Drawer Mobile Navigation */}
         {menuOpen && (
           <>
             <div
@@ -672,7 +763,6 @@ function Index() {
             fetchPriority="high"
           />
           <div className="page-width hero-content">
-            {/* Container dos textos pequenos do topo: estritamente empilhados (flex-col) no mobile com gap pequeno */}
             <div className="hero-top-badges">
               <span className="hero-eyebrow-tag">
                 <span className="eyebrow-line" />
@@ -765,7 +855,7 @@ function Index() {
               </p>
             </div>
 
-            {/* Step navigation tabs */}
+            {/* Navegação entre etapas do processo */}
             <div className="process-nav rounded-t-md overflow-hidden">
               {processSteps.map((step, idx) => (
                 <button
@@ -780,7 +870,7 @@ function Index() {
               ))}
             </div>
 
-            {/* Active Step detail display card */}
+            {/* Exibição detalhada da etapa ativa */}
             <div className="process-display-card">
               <div className="flex items-start gap-6">
                 <span className="process-display-number">{processSteps[activeStep].num}</span>
@@ -814,7 +904,7 @@ function Index() {
           </div>
         </section>
 
-        {/* SEÇÃO 3: O QUE A UMBRA CONSTRÓI (SERVIÇOS ARCHITECTURE) */}
+        {/* SEÇÃO 3: O QUE A UMBRA CONSTRÓI */}
         <section id="solucoes" className="section page-width">
           <Eyebrow>ARQUITETURA DE SERVIÇOS</Eyebrow>
           <div className="section-heading">
@@ -844,7 +934,7 @@ function Index() {
           </div>
         </section>
 
-        {/* SEÇÃO 4: REESTRUTURAÇÃO DO PORTFÓLIO E CASOS REAIS */}
+        {/* SEÇÃO 4: PORTFÓLIO E CASOS REAIS */}
         <section id="projetos" className="section page-width section-border-top">
           <Eyebrow>CASOS REAIS &amp; PRODUTOS EM PRODUÇÃO</Eyebrow>
           <div className="section-heading">
@@ -866,7 +956,6 @@ function Index() {
                   <h3>{prod.name}</h3>
                   <p className="text-sm leading-relaxed text-muted-foreground">{prod.description}</p>
 
-                  {/* Problem & Solution block */}
                   <div className="product-problem-solution">
                     <div className="ps-block">
                       <span className="ps-label">
@@ -913,7 +1002,7 @@ function Index() {
           </div>
         </section>
 
-        {/* SEÇÃO 5: TECNOLOGIA POR TRÁS DA EXPERIÊNCIA (ENGENHARIA) */}
+        {/* SEÇÃO 5: ENGENHARIA DE SOFTWARE */}
         <section id="engenharia" className="section page-width section-border-top">
           <Eyebrow>ENGENHARIA &amp; ARQUITETURA DE SISTEMAS</Eyebrow>
           <div className="section-heading">
@@ -961,7 +1050,6 @@ function Index() {
             ))}
           </div>
 
-          {/* Banner Em Construção */}
           <div className="building-banner">
             <div>
               <span className="eyebrow text-xs mb-1">VISÃO DE FUTURO</span>
@@ -985,7 +1073,7 @@ function Index() {
           </div>
         </section>
 
-        {/* SEÇÃO 7: QUEM ESTÁ POR TRÁS & MÉTRICAS */}
+        {/* SEÇÃO 7: SOBRE & MÉTRICAS */}
         <section id="sobre" className="section page-width section-border-top">
           <div className="founder-grid">
             <div className="founder-photo">
@@ -1030,7 +1118,6 @@ function Index() {
             </div>
           </div>
 
-          {/* Real Metrics Grid */}
           <div className="metrics-grid mt-16">
             {realMetrics.map((m, idx) => (
               <div key={idx} className="metric-item">
@@ -1041,7 +1128,7 @@ function Index() {
           </div>
         </section>
 
-        {/* SEÇÃO 8: CTA FINAL & FORMULÁRIO DE BRIEFING PADRONIZADO (13.13) */}
+        {/* SEÇÃO 8: FORMULÁRIO DE BRIEFING & CONTATO */}
         <section id="contato" className="section contact-section bg-card/30">
           <div className="page-width contact-grid">
             <div>
@@ -1098,9 +1185,8 @@ function Index() {
               </div>
             </div>
 
-            {/* BRIEFING CARD COM PROGRESSO MULTI-ETAPAS */}
+            {/* CARD DO BRIEFING MULTI-ETAPAS */}
             <div className="bg-card border border-border p-6 sm:p-8 rounded-lg shadow-2xl relative">
-              {/* Stepper Header */}
               <div className="briefing-stepper">
                 <button
                   type="button"
@@ -1333,7 +1419,7 @@ function Index() {
                 </div>
               )}
 
-              {/* ETAPA 3: REVISÃO & FINALIZAÇÃO (13.13) */}
+              {/* ETAPA 3: REVISÃO & FINALIZAÇÃO */}
               {formStep === 3 && (
                 <div className="space-y-5">
                   <div>
@@ -1341,7 +1427,6 @@ function Index() {
                     <p className="text-xs text-muted-foreground">Confira os detalhes antes de enviar para a equipe UMBRA.</p>
                   </div>
 
-                  {/* Summary Card */}
                   <div className="bg-surface-inset border border-border p-4 rounded-md space-y-3 font-mono text-xs">
                     <div className="flex justify-between border-b border-border/40 pb-2">
                       <span className="text-muted-foreground">Contato:</span>
@@ -1375,7 +1460,6 @@ function Index() {
                     </div>
                   </div>
 
-                  {/* Operational Feedback Box (when server credentials are unconfigured or error occurs) */}
                   {submissionFeedback.status === 'unconfigured' && (
                     <div className="bg-amber-500/10 border border-amber-500/30 p-4 rounded-md text-xs space-y-2.5">
                       <div className="flex items-center gap-2 text-amber-400 font-semibold">
@@ -1383,7 +1467,7 @@ function Index() {
                         <span>Envio automático direto pendente de configuração no servidor</span>
                       </div>
                       <p className="text-muted-foreground leading-relaxed">
-                        O envio automático direto requer que a variável de ambiente <code className="text-foreground font-mono bg-card px-1 py-0.5 rounded">UMBRA_EMAIL_PASS</code> ou <code className="text-foreground font-mono bg-card px-1 py-0.5 rounded">RESEND_API_KEY</code> esteja configurada no servidor de hospedagem.
+                        O envio automático direto requer que a variável de ambiente <code className="text-foreground font-mono bg-card px-1 py-0.5 rounded">UMBRA_EMAIL_PASS</code> ou <code className="text-foreground font-mono bg-card px-1 py-0.5 rounded">RESEND_API_KEY</code> esteja configurada no servidor.
                       </p>
                       <p className="text-text-secondary leading-relaxed font-medium">
                         Seus dados estão preservados no formulário. Para encaminhar agora mesmo pelo seu cliente de e-mail para <strong className="text-foreground">{UMBRA_CONTACT.email}</strong>, clique no botão abaixo:
@@ -1431,7 +1515,6 @@ function Index() {
                     </div>
                   )}
 
-                  {/* Action Buttons */}
                   <div className="space-y-3 pt-2">
                     <div className="grid gap-2 sm:grid-cols-2">
                       <Button
@@ -1568,7 +1651,7 @@ function Index() {
         </div>
       </footer>
 
-      {/* MODAL DE ESTUDO DE CASO (PROJECT DETAIL MODAL) */}
+      {/* MODAL DE ESTUDO DE CASO */}
       {selectedProject && (
         <div className="modal-overlay" onClick={() => setSelectedProject(null)}>
           <div className="modal-container" onClick={(e) => e.stopPropagation()}>
@@ -1667,7 +1750,7 @@ function Index() {
         </div>
       )}
 
-      {/* MODAL DE CONFIRMAÇÃO UNIFICADO (13.14) */}
+      {/* MODAL DE CONFIRMAÇÃO UNIFICADO */}
       {confirmationModal && (
         <div className="modal-overlay" onClick={() => setConfirmationModal(null)}>
           <div className="modal-container max-w-md" onClick={(e) => e.stopPropagation()}>
@@ -1700,19 +1783,6 @@ function Index() {
           </div>
         </div>
       )}
-
-      {/* Floating WhatsApp Action Button */}
-      <a
-        href="https://wa.me/5511941774214?text=Ol%C3%A1!%20Conheci%20a%20UMBRA%20pelo%20site%20e%20gostaria%20de%20conversar%20sobre%20um%20projeto."
-        target="_blank"
-        rel="noopener noreferrer"
-        className="floating-whatsapp-btn"
-        aria-label="Falar no WhatsApp oficial da UMBRA (11 94177-4214)"
-        title="Falar no WhatsApp da UMBRA"
-      >
-        <MessageSquare className="w-5 h-5 text-white" />
-        <span className="floating-whatsapp-text">WhatsApp</span>
-      </a>
     </>
   );
 }
